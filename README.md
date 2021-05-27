@@ -23,4 +23,3 @@ Para instalar o node [clique aqui](https://nodejs.org/en/)
 - Emerson Luiz
 - Fernando Gomes
 - Ivan Teotônio
-- Mariana Martiniano
