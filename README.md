@@ -5,10 +5,10 @@ Para iniciar o projeto:
 `git clone https://github.com/ofernandovegano/g2t2.git`
 
 Para instalar as dependências:
-`npm i`
+`yarn i`
 
 Para iniciar em modo de desenvolvimento:
-`npm start`
+`yarn dev`
 
 ## Aconselhado ter instalado NODEJS versão 14.x em diante.
 
