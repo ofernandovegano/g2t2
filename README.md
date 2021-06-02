@@ -2,13 +2,16 @@
 ## Sistema de Atendimento Médico :hospital:
 
 Para iniciar o projeto:
-`git clone https://github.com/ofernandovegano/g2t2.git`
+
+#### `git clone https://github.com/ofernandovegano/g2t2.git`
 
 Para instalar as dependências:
-`yarn i`
+
+#### `yarn && cd client && yarn && cd ..`
 
 Para iniciar em modo de desenvolvimento:
-`yarn dev`
+
+#### `yarn dev`
 
 ## Aconselhado ter instalado NODEJS versão 14.x em diante.
 
