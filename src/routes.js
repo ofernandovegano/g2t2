@@ -1,5 +1,6 @@
 import { Router } from 'express';
 const path = require('path');
+import app from './app';
 
 const routes = new Router();
 
