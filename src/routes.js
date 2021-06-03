@@ -1,7 +1,8 @@
-const express = require('express');
+import express  from 'express';
 const router = express.Router();
-const path = require('path');
-const app = require('./app');
+
+import app from './app'
+import path from 'path';
 
 
 // Conection between backend and frontend
@@ -13,4 +14,4 @@ if (process.env.NODE_ENV === 'production') {
   })
 };
 
-module.exports = router;
+export default router;
