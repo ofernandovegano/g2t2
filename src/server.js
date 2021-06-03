@@ -1,5 +1,5 @@
-import app from './app';
-import express from 'express'
+const app = require('./app');
+const express = require('express');
 
 app.use(express.json())
 const port = process.env.PORT || 5000
