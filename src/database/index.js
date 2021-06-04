@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
 const { DatabaseError } = require('sequelize');
-const databaseconfig = require('../config/database')
+const databaseconfig = require('../config/database');
+const User = require('../app/models/User');
 
 const models = [User]
 
@@ -15,4 +16,4 @@ class Database{
   }
 }
 
-export default new Database();
+module.exports = new Database();

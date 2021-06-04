@@ -1,17 +1,34 @@
 const express  = require ('express');
-const router = express.Router();
+const routes = new express.Router();
 
-const app = require ('./app')
 const path = require ('path');
 
+const authMiddleware = require('./app/middlewares/auth');
+
+// controllers
+const UserController = require('./app/controllers/UserController');
+const SessionController = require('./app/controllers/SessionController');
 
 // Conection between backend and frontend
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../client/build')));
+  routes.use(express.static(path.join(__dirname, '../client/build')));
 
-  app.get('*', function (req, res) {
+  routes.get('*', function (req, res) {
     res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
   })
 };
 
-module.exports = router;
+routes.get('/', (req, res) => {
+  res.send({message: 'Hello World'})
+})
+
+// Criar usuário
+routes.post('/users', UserController.store)
+
+// Logar
+routes.post('/session', SessionController.store)
+
+// Abaixo estão as rotas que precisam de autenticação
+routes.use(authMiddleware);
+
+module.exports = routes;
