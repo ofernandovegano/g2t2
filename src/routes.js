@@ -12,13 +12,17 @@ routes.get('/', (req, res) => {
   res.send({message: 'Hello World'})
 })
 
-// Criar usuário
-routes.post('/users', UserController.store)
+// Users
+routes.get("/users", UserController.list);
+routes.get("/users/:id", UserController.get);
+routes.post("/users", UserController.create);
+routes.put("/users/:id", UserController.update);
+routes.delete("/users/:id", UserController.delete);
 
-// Logar
-routes.post('/session', SessionController.store)
+// Login
+routes.post('/session', SessionController.create)
 
-// Abaixo estão as rotas que precisam de autenticação
+// authenticated routes
 routes.use(authMiddleware);
 
 export default routes;
