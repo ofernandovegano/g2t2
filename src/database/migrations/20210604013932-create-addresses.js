@@ -28,7 +28,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      uf: {
+      federative_unit: {
         type: Sequelize.STRING,
         allowNull: false,
       },
