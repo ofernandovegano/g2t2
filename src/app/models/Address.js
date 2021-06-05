@@ -10,7 +10,7 @@ class Address extends Model {
       street: Sequelize.STRING,
       street_number: Sequelize.STRING,
       district: Sequelize.STRING,
-      federal_unit: Sequelize.STRING,
+      uf: Sequelize.STRING,
     },
     {
       sequelize,
