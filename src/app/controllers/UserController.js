@@ -1,7 +1,6 @@
-import User from '../models/User';
+import User from "../models/User";
 
-class UserController{
-
+class UserController {
   async list(req, res) {
     const users = await User.findAll();
 
@@ -19,24 +18,28 @@ class UserController{
   }
 
   async create(req, res) {
-    const { login } = await User.create(req.body)
-    
-      return res.status(201).json({login})
+    const { login, name, password } = req.body;
+
+    await User.create({ login, name, password });
+
+    return res.status(201).json(login);
   }
 
   async update(req, res) {
     const user = await User.findByPk(req.params.id);
-    const { login, name, oldPassword, newPassword} = req.body
+    const { login, name, oldPassword, newPassword } = req.body;
 
     if (!user) {
       return res.status(400).json({ error: "Usuário ou senha errado(a)." });
-    } else if (newPassword && !(await user.checkPassword(oldPassword))){
-      return res.status(401).json({ error: 'Usuário ou senha errado(a).'})
-    } else if (newPassword && await user.checkPassword(newPassword)){
-      return res.status(401).json({ error: 'Por favor, escolha uma senha diferente da anterior'})
+    } else if (newPassword && !(await user.checkPassword(oldPassword))) {
+      return res.status(401).json({ error: "Usuário ou senha errado(a)." });
+    } else if (newPassword && (await user.checkPassword(newPassword))) {
+      return res
+        .status(401)
+        .json({ error: "Por favor, escolha uma senha diferente da anterior" });
     }
-    
-    newPassword ? user.password = newPassword : user.password = oldPassword
+
+    newPassword ? (user.password = newPassword) : (user.password = oldPassword);
 
     user.login = login;
     user.name = name;
