@@ -1,32 +1,44 @@
-'use strict';
+"use strict";
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.createTable('addresses', {
+    return queryInterface.createTable("clients", {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
         allowNull: false,
       },
-      zipcode: {
+      cpf: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true,
+      },
+      name: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      district: {
+      phone: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      street: {
+      mobile: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      city: {
+      email: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      uf: {
-        type: Sequelize.STRING,
+      type_blood: {
+        type: Sequelize.ENUM("A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"),
         allowNull: false,
+      },
+      address_id: {
+        type: Sequelize.INTEGER,
+        references: { model: "addresses", key: "id" },
+        onUpdate: "CASCADE",
+        onDelete: "SET NULL",
       },
       created_at: {
         type: Sequelize.DATE,
@@ -38,7 +50,8 @@ module.exports = {
       },
     });
   },
+
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('addresses');
-  }
+    return queryInterface.dropTable("clients");
+  },
 };

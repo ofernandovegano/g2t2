@@ -1,25 +1,23 @@
-"use strict";
+'use strict';
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.createTable("users", {
+    return queryInterface.createTable('medical_records', {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
         allowNull: false,
       },
-      login: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique: true,
-      },
-      name: {
-        type: Sequelize.STRING,
+      date_opening: {
+        type: Sequelize.DATE,
         allowNull: false,
       },
-      password_hash: {
-        type: Sequelize.STRING,
-        allowNull: false,
+      client_id: {
+        type: Sequelize.INTEGER,
+        references: { model: "clients", key: "id" },
+        onUpdate: "CASCADE",
+        onDelete: "SET NULL",
       },
       created_at: {
         type: Sequelize.DATE,
@@ -29,9 +27,10 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: false,
       },
-    });
+    })
   },
-  down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable("users");
-  },
+
+  down: async (queryInterface, Sequelize) => {
+    return queryInterface.dropTable('medical_records')
+  }
 };
