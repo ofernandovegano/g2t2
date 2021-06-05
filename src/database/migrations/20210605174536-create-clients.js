@@ -12,7 +12,7 @@ module.exports = {
       cpf: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true
+        unique: true,
       },
       name: {
         type: Sequelize.STRING,
@@ -28,6 +28,10 @@ module.exports = {
       },
       email: {
         type: Sequelize.STRING,
+        allowNull: false,
+      },
+      type_blood: {
+        type: Sequelize.ENUM("A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"),
         allowNull: false,
       },
       address_id: {
