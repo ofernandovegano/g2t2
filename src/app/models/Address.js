@@ -6,7 +6,7 @@ import Sequelize, { Model } from 'sequelize';
 class Address extends Model {
   static init(sequelize){ 
     super.init({
-      zip_code: Sequelize.STRING,
+      zipcode: Sequelize.STRING,
       street: Sequelize.STRING,
       street_number: Sequelize.STRING,
       district: Sequelize.STRING,
