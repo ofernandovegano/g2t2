@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "concurrently": "^4.0.1",
+    "mysql2": "^2.2.5",
     "nodemon": "^1.19.1",
     "sequelize-cli": "^6.2.0",
     "sucrase": "^3.18.1"
