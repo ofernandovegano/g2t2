@@ -8,6 +8,7 @@ const routes = new Router();
 import UserController from './app/controllers/UserController'
 import ClientController from "./app/controllers/ClientController";
 import SessionController from './app/controllers/SessionController'
+import ProfessionController from './app/controllers/ProfessionController'
 
 routes.get('/', (req, res) => {
   res.send({message: 'Hello World'})
@@ -26,6 +27,13 @@ routes.get("/clients/:id", ClientController.get);
 routes.post("/clients", ClientController.create);
 routes.put("/clients/:id", ClientController.update);
 routes.delete("/clients/:id", ClientController.delete);
+
+// Professions
+routes.get("/professions", ProfessionController.list);
+routes.get("/professions/:id", ProfessionController.get);
+routes.post("/professions", ProfessionController.create);
+routes.put("/professions/:id", ProfessionController.update);
+routes.delete("/professions/:id", ProfessionController.delete);
 
 // Login
 routes.post('/session', SessionController.create)
