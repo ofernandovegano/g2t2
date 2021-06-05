@@ -1,15 +1,15 @@
-'use strict';
+"use strict";
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.createTable("specialists", {
+    return queryInterface.createTable("clients", {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
         allowNull: false,
       },
-      register: {
+      cpf: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true
@@ -30,12 +30,6 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      profession_id: {
-        type: Sequelize.INTEGER,
-        references: { model: "professions", key: "id" },
-        onUpdate: "CASCADE",
-        onDelete: "SET NULL",
-      },
       address_id: {
         type: Sequelize.INTEGER,
         references: { model: "addresses", key: "id" },
@@ -54,6 +48,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable("specialists")
-  }
+    return queryInterface.dropTable("clients");
+  },
 };
