@@ -3,7 +3,7 @@ import User from '../models/User';
 import authConfig from '../../config/auth';
 
 class SessionController{
-  async store(req, res){
+  async create(req, res){
     const { login, password } = req.body;
 
     const user = await User.findOne({ where: { login }})
