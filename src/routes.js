@@ -29,5 +29,6 @@ routes.post('/session', SessionController.create)
 routes.use(authMiddleware);
 routes.post('/address', AddressesController.store);
 routes.put('/address/:id', AddressesController.update);
+routes.delete('/address/:id', AddressesController.delete);
 
 export default routes;

@@ -7,6 +7,7 @@ class AddressesController {
 
     res.status(200).json(addresses);
   }
+  
   async store(req, res){
     const { zipcode, street, street_number, city, district, uf } = req.body;
 
@@ -42,6 +43,21 @@ class AddressesController {
     });
 
     res.status(200).json({sucess:"Endereço alterado com sucesso!"});
+  }
+
+  async delete(req, res){
+    const addressExist = await Address.findByPk(req.params.id);
+
+    if(!addressExist) return res.status(400).json({erro:"Endereço não encontrado."});
+
+    await Address.destroy({
+      where:{
+        id:req.params.id
+      }
+    });
+
+    res.status(200).json({sucess: "Endereço deletado com sucesso!"})
+
   }
 }
 
