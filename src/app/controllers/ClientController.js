@@ -26,7 +26,7 @@ class ClientController{
   async create(req, res) {
     const { cpf, name, phone, mobile, email, type_blood, address_id } = req.body;
 
-    const address = await Address.findByPk(id_address);
+    const address = await Address.findByPk(address_id);
 
     if (!address) {
       return res

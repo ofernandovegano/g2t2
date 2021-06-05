@@ -6,6 +6,7 @@ const routes = new Router();
 
 // controllers
 import UserController from './app/controllers/UserController'
+import ClientController from "./app/controllers/ClientController";
 import SessionController from './app/controllers/SessionController'
 
 routes.get('/', (req, res) => {
@@ -18,6 +19,13 @@ routes.get("/users/:id", UserController.get);
 routes.post("/users", UserController.create);
 routes.put("/users/:id", UserController.update);
 routes.delete("/users/:id", UserController.delete);
+
+// Clients
+routes.get("/clients", ClientController.list);
+routes.get("/clients/:id", ClientController.get);
+routes.post("/clients", ClientController.create);
+routes.put("/clients/:id", ClientController.update);
+routes.delete("/clients/:id", ClientController.delete);
 
 // Login
 routes.post('/session', SessionController.create)
