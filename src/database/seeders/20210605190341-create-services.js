@@ -20,7 +20,7 @@ module.exports = {
         time_service: new Date(),
         price: "80",
         status_service: "Realizado",
-        id_cliente: "1",
+        client_id: "1",
         specialist_id: "1",
         created_at: new Date(),
         updated_at: new Date(),

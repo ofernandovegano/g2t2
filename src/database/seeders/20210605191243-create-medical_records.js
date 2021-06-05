@@ -5,13 +5,13 @@ module.exports = {
     return queryInterface.bulkInsert("medical_records", [
       {
         date_opening: new Date(),
-        id_cliente: "1",
+        client_id: "1",
         created_at: new Date(),
         updated_at: new Date(),
       },
       {
         date_opening: new Date(),
-        id_cliente: "3",
+        client_id: "3",
         created_at: new Date(),
         updated_at: new Date(),
       },
