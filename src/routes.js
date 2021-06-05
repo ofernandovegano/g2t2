@@ -21,6 +21,7 @@ routes.put("/users/:id", UserController.update);
 routes.delete("/users/:id", UserController.delete);
 
 routes.get('/address', AddressesController.list);
+routes.post('/address', AddressesController.store);
 
 // Login
 routes.post('/session', SessionController.create)
