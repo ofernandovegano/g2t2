@@ -19,10 +19,14 @@ class UserController {
 
   async create(req, res) {
     const { login, name, password } = req.body;
+    try {
+      await User.create({ login, name, password });
+      return res.status(201).json(login);
 
-    await User.create({ login, name, password });
+    } catch (error) {
+      return res.status(400).json({erro: error.errors.map(erro => erro.message) || error.message});
+    }
 
-    return res.status(201).json(login);
   }
 
   async update(req, res) {
@@ -51,14 +55,21 @@ class UserController {
 
   async delete(req, res) {
     const user = await User.findByPk(req.params.id);
+    try {
+      if (!user) {
+        return res.status(400).json({ error: "Usuário não encontrado" });
+      }
+  
+      await user.destroy();
+  
+      return res.status(200).send();
+      
+    } catch (error) {
 
-    if (!user) {
-      return res.status(400).json({ error: "Usuário não encontrado" });
+      return res.status(400).json({erro: error.message});
+      
     }
 
-    await user.destroy();
-
-    return res.status(200).send();
   }
 }
 
