@@ -3,9 +3,10 @@ import { DatabaseError } from 'sequelize';
 import databaseconfig from '../config/database'
 
 import User from '../app/models/User';
+import Profession from '../app/models/Profession';
 import Address from '../app/models/Address';
 
-const models = [User,Address]
+const models = [User, Profession, Address]
 
 class Database{
   constructor() {
