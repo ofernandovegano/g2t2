@@ -19,10 +19,14 @@ class ProfessionController {
 
   async create(req, res) {
     const { name } = req.body;
+    try {
+      const profession = await Profession.create({ name });
+  
+      return res.status(201).json(profession);
+    } catch (error) {
+      return res.status(400).json({erro: error.errors.map(erro => erro.message) || error.message});
+    }
 
-    const profession = await Profession.create({ name });
-
-    return res.status(201).json(profession);
   }
 
   async update(req, res) {
@@ -41,14 +45,18 @@ class ProfessionController {
 
   async delete(req, res) {
     const profession = await Profession.findByPk(req.params.id);
-
-    if (!profession) {
-      return res.status(400).json({ error: "Profissão não encontrada" });
+    try {
+      if (!profession) {
+        return res.status(400).json({ error: "Profissão não encontrada" });
+      }
+  
+      await profession.destroy();
+  
+      return res.status(200).send();
+    } catch (error) {
+      
+      return res.status(400).json({erro: error.message});
     }
-
-    await profession.destroy();
-
-    return res.status(200).send();
   }
 }
 
