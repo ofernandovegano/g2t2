@@ -1,29 +1,28 @@
-'use strict';
-import Sequelize, { Model } from 'sequelize';
-
-
+"use strict";
+import Sequelize, { Model } from "sequelize";
 
 class Address extends Model {
-  static init(sequelize){ 
-    super.init({
-      zip_code: Sequelize.STRING,
-      street: Sequelize.STRING,
-      street_number: Sequelize.STRING,
-      district: Sequelize.STRING,
-      federal_unit: Sequelize.STRING,
-    },
-    {
-      sequelize,
-      modelName: 'Address',
-    });
-  
-    
+  static init(sequelize) {
+    super.init(
+      {
+        zipcode: Sequelize.STRING,
+        district: Sequelize.STRING,
+        street: Sequelize.STRING,
+        street_number: Sequelize.STRING,
+        city: Sequelize.STRING,
+        federative_unit: Sequelize.STRING,
+      },
+      {
+        sequelize,
+      }
+    );
+
     return this;
   }
-  
+
   static associate(models) {
-  // define association here
+    // define association here
   }
-};
+}
 
 export default Address;
