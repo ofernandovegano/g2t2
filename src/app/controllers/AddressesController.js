@@ -18,48 +18,27 @@ class AddressesController {
   }
 
   async create(req, res){
-    const { zipcode, street, street_number, city, district, uf } = req.body;
-    
+  
     try {
-      const address = await Address.create({
-        zipcode,
-        street,
-        street_number,
-        city,
-        district,
-        uf
-      });
+      const address = await Address.create(req.body);
   
       return res.status(200).json(address);
 
     } catch (error) {
-      console.log("Aqui",error);
-      return res.status(400).json({erro: error.errors.map(erro => erro.message)});
+      return res.status(400).json({erro: error.errors.map(erro => erro.message) || error.message});
     }
 
   }
   async update(req, res){
-    const { zipcode, street, street_number, city, district, uf } = req.body;
     const addressExist = await Address.findByPk(req.params.id);
 
     if(!addressExist) return res.status(400).json({erro:"Endereço não encontrado"});
 
     try {
-      await Address.update({
-        zipcode,
-        street, 
-        street_number, 
-        city, 
-        district, 
-        uf
-      },{
-        where:{
-          id:req.params.id
-        }
-      });
+      await addressExist.update(req.body);
       res.status(200).json({success:"Endereço alterado com sucesso!"});
     } catch (error) {
-      return res.status(400).json({erro: error.errors.map(erro => erro.message)});
+      return res.status(400).json({erro: error.errors.map(erro => erro.message) || error.message});
     }
 
   }
@@ -70,11 +49,7 @@ class AddressesController {
     if(!addressExist) return res.status(400).json({erro:"Endereço não encontrado."});
 
     try {
-      await Address.destroy({
-        where:{
-          id:req.params.id
-        }
-      });
+      await addressExist.destroy();
 
       res.status(200).json({success: "Endereço deletado com sucesso!"})
     } catch (error) {
