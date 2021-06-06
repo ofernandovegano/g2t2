@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
-import Sequelize, { Model } from 'sequelize';
+import Sequelize, { Model } from "sequelize";
 
 class Client extends Model {
-  static init(sequelize){
+  static init(sequelize) {
     super.init(
       {
         cpf: Sequelize.STRING,
@@ -24,20 +24,19 @@ class Client extends Model {
       },
       {
         sequelize,
-        modelName: 'Client',
+        modelName: "Client",
       }
-    )
+    );
 
     return this;
   }
-  
+
   static associate(models) {
     this.belongsTo(models.Address, {
       foreignKey: "address_id",
       as: "address",
     });
   }
-
-};
+}
 
 export default Client;
