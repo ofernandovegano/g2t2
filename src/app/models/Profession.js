@@ -4,7 +4,14 @@ class Profession extends Model {
   static init(sequelize) {
     super.init(
       {
-        name: Sequelize.STRING,
+        name:{
+          type: Sequelize.STRING,
+          validate: {
+            notEmpty: {
+              msg: "O campo nome da profissão não pode ser vazio."
+            }
+          }
+        },
       },
       {
         sequelize,
