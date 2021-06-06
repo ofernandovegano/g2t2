@@ -6,9 +6,31 @@ class User extends Model {
   static init(sequelize){
     super.init(
       {
-        login: Sequelize.STRING,
-        name: Sequelize.STRING,
-        password: Sequelize.VIRTUAL,
+        login: {
+          type:Sequelize.STRING,
+          validate: {
+            len:{
+              args:[5,20],
+              msg: "O campo login deve ter entre 5 e 20 caracteres."
+            }
+          }
+        },
+        name:{
+          type: Sequelize.STRING,
+          validate: {
+            notEmpty: {
+              msg: "O campo nome não pode ser vazio."
+            }
+          }
+        },
+        password: {
+          type: Sequelize.VIRTUAL,
+          validate: {
+            notEmpty: {
+              msg: "O campo senha não pode ser vazio."
+            }
+          }
+        },
         password_hash: Sequelize.STRING,
       },
       {
