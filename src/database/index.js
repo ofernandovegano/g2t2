@@ -1,21 +1,31 @@
-import Sequelize from 'sequelize';
-import { DatabaseError } from 'sequelize';
-import databaseconfig from '../config/database'
+import Sequelize from "sequelize";
+import { DatabaseError } from "sequelize";
+import databaseconfig from "../config/database";
 
-import User from '../app/models/User';
-import Profession from '../app/models/Profession';
-import Address from '../app/models/Address';
+import User from "../app/models/User";
+import Profession from "../app/models/Profession";
+import Specialist from "../app/models/Specialist";
+import Client from "../app/models/Client";
+import Address from "../app/models/Address";
 
-const models = [User, Profession, Address]
-
-class Database{
+const models = [User, Profession, Specialist, Client, Address];
+class Database {
   constructor() {
-    this.init()
+    this.init();
+    this.associate();
   }
 
   init() {
     this.connection = new Sequelize(databaseconfig);
-    models.map(model => model.init(this.connection));
+    models.map((model) => model.init(this.connection));
+  }
+
+  associate() {
+    models.map((model) => {
+      if (typeof model.associate === "function") {
+        model.associate(this.connection.models);
+      }
+    });
   }
 }
 

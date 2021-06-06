@@ -1,7 +1,5 @@
-'use strict';
-import Sequelize, { Model } from 'sequelize';
-
-
+"use strict";
+import Sequelize, { Model } from "sequelize";
 
 class Address extends Model {
   static init(sequelize){ 
@@ -63,10 +61,10 @@ class Address extends Model {
     
     return this;
   }
-  
+
   static associate(models) {
-  // define association here
+    // define association here
   }
-};
+}
 
 export default Address;
