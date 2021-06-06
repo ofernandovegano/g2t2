@@ -17,7 +17,7 @@ class AddressesController {
     return res.json(address);
   }
 
-  async store(req, res){
+  async create(req, res){
     const { zipcode, street, street_number, city, district, uf } = req.body;
     
     try {
