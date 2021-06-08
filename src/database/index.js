@@ -7,15 +7,10 @@ import Profession from "../app/models/Profession";
 import Specialist from "../app/models/Specialist";
 import Client from "../app/models/Client";
 import Address from "../app/models/Address";
-<<<<<<< HEAD
 import MedicalRecord from "../app/models/MedicalRecord";
-
-const models = [User, Profession, Specialist, Client, Address, MedicalRecord];
-=======
 import Service from "../app/models/Service";
 
-const models = [User, Profession, Specialist, Client, Address, Service];
->>>>>>> master
+const models = [User, Profession, Specialist, Client, Address, MedicalRecord, Service];
 class Database {
   constructor() {
     this.init();
