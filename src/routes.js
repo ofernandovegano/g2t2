@@ -11,8 +11,9 @@ import SessionController from './app/controllers/SessionController'
 import AddressesController from './app/controllers/AddressesController'
 import ProfessionController from './app/controllers/ProfessionController'
 import SpecialistController from './app/controllers/SpecialistController'
-import MedicalRecordController from './app/controllers/MedicalRecordController'
 import ServiceController from './app/controllers/ServiceController'
+import MedicalRecordController from './app/controllers/MedicalRecordController'
+import MedicalRecordHistoryController from './app/controllers/MedicalRecordHistoryController'
 
 routes.get('/', (req, res) => {
   res.send({message: 'Hello World'})
@@ -47,18 +48,26 @@ routes.post("/specialists", SpecialistController.create);
 routes.put("/specialists/:id", SpecialistController.update);
 routes.delete("/specialists/:id", SpecialistController.delete);
 
-// Medical Records
-routes.get("/medical-records", MedicalRecordController.list);
-routes.get("/medical-records/:id", MedicalRecordController.get);
-routes.post("/medical-records", MedicalRecordController.create);
-routes.put("/medical-records/:id", MedicalRecordController.update);
-routes.delete("/medical-records/:id", MedicalRecordController.delete);
 // Services
 routes.get("/services", ServiceController.list);
 routes.get("/services/:id", ServiceController.get);
 routes.post("/services", ServiceController.create);
 routes.put("/services/:id", ServiceController.update);
 routes.delete("/services/:id", ServiceController.delete);
+
+// Medical Records
+routes.get("/medical-records", MedicalRecordController.list);
+routes.get("/medical-records/:id", MedicalRecordController.get);
+routes.post("/medical-records", MedicalRecordController.create);
+routes.put("/medical-records/:id", MedicalRecordController.update);
+routes.delete("/medical-records/:id", MedicalRecordController.delete);
+
+// Medical Records History
+routes.get("/medical-records-history", MedicalRecordHistoryController.list);
+routes.get("/medical-records-history/:id", MedicalRecordHistoryController.get);
+routes.post("/medical-records-history", MedicalRecordHistoryController.create);
+routes.put("/medical-records-history/:id", MedicalRecordHistoryController.update);
+routes.delete("/medical-records-history/:id", MedicalRecordHistoryController.delete);
 
 // Login
 routes.post('/session', SessionController.create)
