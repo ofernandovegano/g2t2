@@ -11,6 +11,7 @@ import SessionController from './app/controllers/SessionController'
 import AddressesController from './app/controllers/AddressesController'
 import ProfessionController from './app/controllers/ProfessionController'
 import SpecialistController from './app/controllers/SpecialistController'
+import MedicalRecordController from './app/controllers/MedicalRecordController'
 
 routes.get('/', (req, res) => {
   res.send({message: 'Hello World'})
@@ -44,6 +45,13 @@ routes.get("/specialists/:id", SpecialistController.get);
 routes.post("/specialists", SpecialistController.create);
 routes.put("/specialists/:id", SpecialistController.update);
 routes.delete("/specialists/:id", SpecialistController.delete);
+
+// Medical Records
+routes.get("/medical-records", MedicalRecordController.list);
+routes.get("/medical-records/:id", MedicalRecordController.get);
+routes.post("/medical-records", MedicalRecordController.create);
+routes.put("/medical-records/:id", MedicalRecordController.update);
+routes.delete("/medical-records/:id", MedicalRecordController.delete);
 
 // Login
 routes.post('/session', SessionController.create)
