@@ -47,18 +47,21 @@ class ServiceController {
         .status(400)
         .json({ erro: "Especialista inválido, tente novamente" });
     }
-
-    const service = await Service.create({
-      date_schedule,
-      date_service,
-      time_service,
-      price,
-      status_service,
-      client_id,
-      specialist_id,
-    });
-
-    return res.status(201).json(service);
+    try {
+      const service = await Service.create({
+        date_schedule,
+        date_service,
+        time_service,
+        price,
+        status_service,
+        client_id,
+        specialist_id,
+      });
+  
+      return res.status(201).json(service);
+    } catch (error) {
+      return res.status(400).json({erro: error.errors.map(erro => erro.message) || error.message}); 
+    }
   }
 
   async update(req, res) {
@@ -97,17 +100,23 @@ class ServiceController {
           .json({ erro: "Especialista inválido, tente novamente" });
       }
     }
+    try {
+      (service.date_schedule = date_schedule),
+        (service.date_service = date_service),
+        (service.time_service = time_service),
+        (service.price = price),
+        (service.status_service = status_service),
+        (service.client_id = client_id),
+        (service.specialist_id = specialist_id),
+        await service.save();
+  
+      return res.status(200).json(service);
+      
+    } catch (error) {
+      return res.status(400).json({erro: error.errors.map(erro => erro.message) || error.message}); 
+      
+    }
 
-    (service.date_schedule = date_schedule),
-      (service.date_service = date_service),
-      (service.time_service = time_service),
-      (service.price = price),
-      (service.status_service = status_service),
-      (service.client_id = client_id),
-      (service.specialist_id = specialist_id),
-      await service.save();
-
-    return res.status(200).json(service);
   }
 
   async delete(req, res) {
