@@ -19,6 +19,11 @@ class UserController {
 
   async create(req, res) {
     const { login, name, password } = req.body;
+    const loginExist = User.findOne({ where: { login }});
+
+    if(loginExist){
+      return res.status(400).json({erro: "Login já cadastrado."});
+    }
     try {
       await User.create({ login, name, password });
       return res.status(201).json(login);
