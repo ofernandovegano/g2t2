@@ -4,11 +4,64 @@ class Service extends Model {
   static init(sequelize) {
     super.init(
       {
-        date_schedule: Sequelize.DATE,
-        date_service: Sequelize.DATE,
-        time_service: Sequelize.DATE,
+        date_schedule: {
+          type:Sequelize.DATE,
+          allowNull: false,
+          isDate: true,
+          validate:{
+            notEmpty: {
+              msg: "O campo data de agendamento não pode ser vazio."
+            },
+            notNull: {
+              msg: "O campo data de agendamento é obrigatório."
+            },
+            isDate:{
+              msg: "Data de agendamento inválida"
+            }
+          }
+        },
+        date_service: {
+          type:Sequelize.DATE,
+          allowNull: false,
+          isDate: true,
+          validate:{
+            notEmpty: {
+              msg: "O campo data de atendimento não pode ser vazio."
+            },
+            notNull: {
+              msg: "O campo data de atendimento é obrigatório."
+            },
+            isDate:{
+              msg:"Data de atendimento inválida"
+            }
+          }
+        },
+        time_service: {
+          type:Sequelize.DATE,
+          allowNull: false,
+          isDate: true,
+          validate:{
+            notEmpty: {
+              msg: "O campo hora não pode ser vazio."
+            },
+            notNull: {
+              msg: "O campo hora é obrigatório."
+            },
+            isDate:{
+              msg:"Hora inválida"
+            }
+          }
+        },
         price: Sequelize.FLOAT,
-        status_service: Sequelize.ENUM("AGENDADO", "REALIZADO", "CANCELADO"),
+        status_service: {
+          type: Sequelize.ENUM("AGENDADO", "REALIZADO", "CANCELADO"),
+          validate:{
+            isIn:{
+              args:[["AGENDADO", "REALIZADO", "CANCELADO"]],
+              msg: "Status de agendamento válidos: AGENDADO, REALIZADO, CANCELADO"
+            } 
+          }
+        }
       },
       {
         sequelize,
