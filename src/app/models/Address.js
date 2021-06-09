@@ -44,7 +44,7 @@ class Address extends Model {
           }
         }
       },
-      uf: {
+      federative_unit: {
         type: Sequelize.STRING,
         validate: {
           notEmpty: {
