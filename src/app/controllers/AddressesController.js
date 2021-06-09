@@ -51,7 +51,7 @@ class AddressesController {
     try {
       await addressExist.destroy();
 
-      res.status(200).json({success: "Endereço deletado com sucesso!"})
+      res.status(200).send()
     } catch (error) {
 
       res.status(400).json({erro: error.message})

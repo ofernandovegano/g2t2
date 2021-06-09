@@ -10,6 +10,9 @@ class Specialist extends Model {
           validate:{
             notEmpty: {
               msg: "O campo registro não pode ser vazio."
+            },
+            notNull: {
+              msg: "O campo registro não pode ser vazio."
             }
           }
         },
@@ -19,15 +22,32 @@ class Specialist extends Model {
           validate:{
             notEmpty: {
               msg: "O campo nome não pode ser vazio."
+            },
+            notNull: {
+              msg: "O campo nome não pode ser vazio."
             }
           }
         },
-        phone: Sequelize.STRING,
+        phone: {
+          type:Sequelize.STRING,
+          allowNull: false,
+          validate:{
+            notEmpty: {
+              msg: "O campo telefone não pode ser vazio."
+            },
+            notNull: {
+              msg: "O campo telefone não pode ser vazio."
+            }
+          }
+        },
         mobile: {
           type:Sequelize.STRING,
           allowNull: false,
           validate:{
             notEmpty: {
+              msg: "O campo celular não pode ser vazio."
+            },
+            notNull: {
               msg: "O campo celular não pode ser vazio."
             }
           }
@@ -41,6 +61,9 @@ class Specialist extends Model {
             },
             isEmail: {
               msg: "Formato de e-mail inválido."
+            },
+            notNull: {
+              msg: "O campo e-mail não pode ser vazio."
             }
           }
         },
