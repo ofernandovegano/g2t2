@@ -1,10 +1,6 @@
 {
   "name": "g2t2",
   "version": "1.0.0",
-  "engines": {
-    "node": "14.15.0",
-    "npm": "7.7.6"
-  },
   "scripts": {
     "dev": "nodemon src/server",
     "build": "sucrase ./src -d ./dist --transforms imports",
