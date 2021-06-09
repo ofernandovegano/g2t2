@@ -25,6 +25,14 @@ class SpecialistController {
     const { register, name, phone, mobile, email, profession_id, address_id } =
       req.body;
 
+    const registerExist = await Specialist.findOne({where: { register }});
+
+    if(registerExist){
+      return res
+        .status(400)
+        .json({ erro: "Registro já cadastrado, verifique o dado informado." });
+    }
+
     const profession = await Profession.findByPk(profession_id);
 
     if (!profession) {
@@ -41,17 +49,22 @@ class SpecialistController {
         .json({ erro: "Endereço inválido, tente novamente" });
     }
 
-    const specialist = await Specialist.create({
-      register,
-      name,
-      phone,
-      mobile,
-      email,
-      profession_id,
-      address_id,
-    });
-
-    return res.status(201).json(specialist);
+    try {
+      const specialist = await Specialist.create({
+        register,
+        name,
+        phone,
+        mobile,
+        email,
+        profession_id,
+        address_id,
+      });
+  
+      return res.status(201).json(specialist);
+      
+    } catch (error) {
+      return res.status(400).json({erro: error.errors.map(erro => erro.message) || error.message});
+    }
   }
 
   async update(req, res) {
@@ -83,18 +96,23 @@ class SpecialistController {
           .json({ erro: "Endereço inválido, tente novamente" });
       }
     }
+    try {
+      specialist.register = register,
+      specialist.name = name,
+      specialist.phone = phone,
+      specialist.mobile = mobile,
+      specialist.email = email,
+      specialist.profession_id = profession_id,
+      specialist.address_id = address_id,
+        
+      await specialist.save();
+  
+      return res.status(200).json(specialist);
 
-    specialist.register = register,
-    specialist.name = name,
-    specialist.phone = phone,
-    specialist.mobile = mobile,
-    specialist.email = email,
-    specialist.profession_id = profession_id,
-    specialist.address_id = address_id,
-      
-    await specialist.save();
+    } catch (error) {
+      return res.status(400).json({erro: error.errors.map(erro => erro.message) || error.message});
 
-    return res.status(200).json(specialist);
+    }
   }
 
   async delete(req, res) {
@@ -103,10 +121,14 @@ class SpecialistController {
     if (!specialist) {
       return res.status(400).json({ error: "Especialista não encontrado" });
     }
+    try {
+      await specialist.destroy();
 
-    await specialist.destroy();
-
-    return res.status(200).send();
+      return res.status(200).send();
+    } catch (error) {
+      res.status(400).json({erro: error.message})
+      
+    }
   }
 }
 
