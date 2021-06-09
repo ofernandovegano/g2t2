@@ -4,11 +4,46 @@ class Specialist extends Model {
   static init(sequelize) {
     super.init(
       {
-        register: Sequelize.STRING,
-        name: Sequelize.STRING,
+        register: {
+          type:Sequelize.STRING,
+          allowNull: false,
+          validate:{
+            notEmpty: {
+              msg: "O campo registro não pode ser vazio."
+            }
+          }
+        },
+        name: {
+          type:Sequelize.STRING,
+          allowNull: false,
+          validate:{
+            notEmpty: {
+              msg: "O campo nome não pode ser vazio."
+            }
+          }
+        },
         phone: Sequelize.STRING,
-        mobile: Sequelize.STRING,
-        email: Sequelize.STRING,
+        mobile: {
+          type:Sequelize.STRING,
+          allowNull: false,
+          validate:{
+            notEmpty: {
+              msg: "O campo celular não pode ser vazio."
+            }
+          }
+        },
+        email: {
+          type:Sequelize.STRING,
+          allowNull: false,
+          validate:{
+            notEmpty: {
+              msg: "O campo e-mail não pode ser vazio."
+            },
+            isEmail: {
+              msg: "Formato de e-mail inválido."
+            }
+          }
+        },
       },
       {
         sequelize,
