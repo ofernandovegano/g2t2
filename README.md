@@ -19,10 +19,7 @@ Para instalar o node [clique aqui](https://nodejs.org/en/)
 
 ## Participantes
 
+- André Ludwig
 - Ariele Mendonça
-- Arthur Polon
 - Caroline Casagrande
-- David Biolchini
-- Emerson Luiz
 - Fernando Gomes
-- Ivan Teotônio
