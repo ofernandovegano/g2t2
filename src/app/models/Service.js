@@ -37,19 +37,15 @@ class Service extends Model {
           }
         },
         time_service: {
-          type:Sequelize.DATE,
+          type:Sequelize.STRING,
           allowNull: false,
-          isDate: true,
           validate:{
             notEmpty: {
               msg: "O campo hora não pode ser vazio."
             },
             notNull: {
               msg: "O campo hora é obrigatório."
-            },
-            isDate:{
-              msg:"Hora inválida"
-            }
+            },  
           }
         },
         price: Sequelize.FLOAT,
