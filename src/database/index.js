@@ -1,4 +1,6 @@
+require('dotenv').config()
 import Sequelize from "sequelize";
+import mongoose from 'mongoose'
 import { DatabaseError } from "sequelize";
 import databaseconfig from "../config/database";
 
@@ -25,6 +27,7 @@ class Database {
   constructor() {
     this.init();
     this.associate();
+    this.mongo();
   }
 
   init() {
@@ -38,6 +41,17 @@ class Database {
         model.associate(this.connection.models);
       }
     });
+  }
+
+  mongo() {
+    this.mongoConnection = mongoose.connect(
+      `mongodb+srv://admin:${process.env.MONGO_PASSWORD}@service-checkin.buh92.mongodb.net/g2t2?retryWrites=true&w=majority`,
+      { 
+        useCreateIndex: true,
+        useNewUrlParser: true, 
+        useUnifiedTopology: true
+      }
+    )
   }
 }
 
