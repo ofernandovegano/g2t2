@@ -34,17 +34,32 @@ class ClientController{
         .json({ erro: "Cliente inválido, endereço não encontrado" });
     }
 
-    const client = await Client.create({
-      cpf,
-      name,
-      phone,
-      mobile,
-      email,
-      type_blood,
-      address_id,
-    });
+    const clientExist = await Client.findOne({where: {cpf}});
 
-    return res.status(201).json(client);
+    if(clientExist) return res.status(400).json({erro: "Cpf já cadastrado, verifique o dado informado."});
+
+    const emailExist = await Client.findOne({where: {email}});
+
+    if(emailExist) return res.status(400).json({erro: "Email já cadastrado."});
+
+    try {
+      const client = await Client.create({
+        cpf,
+        name,
+        phone,
+        mobile,
+        email,
+        type_blood,
+        address_id,
+      });
+  
+      return res.status(201).json(client);
+    } catch (error) {
+
+      return res.status(400).json({erro: error.errors.map(erro => erro.message) || error.message});
+      
+    }
+
   }
 
   async update(req, res) {
@@ -56,6 +71,7 @@ class ClientController{
     if (!client) {
       return res.status(400).json({ error: "Cliente não encontrado" });
     }
+
     if (address_id) {
       const address = await Address.findByPk(address_id);
 
