@@ -78,7 +78,6 @@ routes.get('/checkins/sync', CheckinController.sync)
 routes.post('/checkins/new', CheckinController.create)
 
 // authenticated routes
-routes.use(authMiddleware);
 
 //Addresses
 routes.get('/address', AddressesController.list);
@@ -86,5 +85,6 @@ routes.get('/address/:id', AddressesController.get);
 routes.post('/address', AddressesController.create);
 routes.put('/address/:id', AddressesController.update);
 routes.delete('/address/:id', AddressesController.delete);
+routes.use(authMiddleware);
 
 export default routes;
