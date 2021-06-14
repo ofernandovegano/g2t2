@@ -14,6 +14,7 @@ import SpecialistController from './app/controllers/SpecialistController'
 import ServiceController from './app/controllers/ServiceController'
 import MedicalRecordController from './app/controllers/MedicalRecordController'
 import MedicalRecordHistoryController from './app/controllers/MedicalRecordHistoryController'
+import CheckinController from './app/controllers/CheckinController'
 
 routes.get('/', (req, res) => {
   res.send({message: 'Hello World'})
@@ -71,6 +72,10 @@ routes.delete("/medical-records-history/:id", MedicalRecordHistoryController.del
 
 // Login
 routes.post('/session', SessionController.create)
+
+// mongoo route
+routes.get('/ckeckin/sync', CheckinController.sync)
+routes.post('/ckeckin/new', CheckinController.create)
 
 // authenticated routes
 routes.use(authMiddleware);

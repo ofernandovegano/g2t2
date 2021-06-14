@@ -1,6 +1,9 @@
+require('dotenv').config()
 import Sequelize from "sequelize";
+import mongoose from 'mongoose'
 import { DatabaseError } from "sequelize";
 import databaseconfig from "../config/database";
+import pusher from '../config/pusher'
 
 import User from "../app/models/User";
 import Profession from "../app/models/Profession";
@@ -25,6 +28,8 @@ class Database {
   constructor() {
     this.init();
     this.associate();
+    this.mongo();
+    this.pusher();
   }
 
   init() {
@@ -37,6 +42,45 @@ class Database {
       if (typeof model.associate === "function") {
         model.associate(this.connection.models);
       }
+    });
+  }
+
+  mongo() {
+    this.mongoConnection = mongoose.connect(
+      `mongodb+srv://admin:${process.env.MONGO_PASSWORD}@service-checkin.buh92.mongodb.net/g2t2?retryWrites=true&w=majority`,
+      { 
+        useCreateIndex: true,
+        useNewUrlParser: true, 
+        useUnifiedTopology: true
+      }
+    )
+  }
+
+  pusher() {
+    const db = mongoose.connection;
+
+    db.once("open", () => {
+      console.log("DB connected");
+
+      const checkinCollection = db.collection("checkins");
+      const changeStream = checkinCollection.watch();
+
+      changeStream.on('change', (change) => {
+        console.log(change);
+
+        if (change.operationType === 'insert') {
+          const checkinDetails = change.fullDocument;
+          pusher.trigger('checkins', 'inserted',
+            {
+              patient: checkinDetails.patient,
+              appointment: checkinDetails.appointment,
+              specialist: checkinDetails.specialist
+            }
+          );
+        } else {
+          console.log('Error triggering Pusher')
+        }
+      });
     });
   }
 }
