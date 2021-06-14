@@ -44,6 +44,7 @@ routes.delete("/professions/:id", ProfessionController.delete);
 
 // Specialists
 routes.get("/specialists", SpecialistController.list);
+routes.get("/specialists/:id", SpecialistController.listByProfession);
 routes.get("/specialists/:id", SpecialistController.get);
 routes.post("/specialists", SpecialistController.create);
 routes.put("/specialists/:id", SpecialistController.update);
