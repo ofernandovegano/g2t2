@@ -74,7 +74,7 @@ routes.delete("/medical-records-history/:id", MedicalRecordHistoryController.del
 routes.post('/session', SessionController.create)
 
 // mongoo route
-
+routes.get('/ckeckin/sync', CheckinController.sync)
 routes.post('/ckeckin/new', CheckinController.create)
 
 // authenticated routes

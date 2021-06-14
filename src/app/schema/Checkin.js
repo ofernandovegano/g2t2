@@ -1,11 +1,15 @@
 import mongoose from 'mongoose';
 
 const CheckinSchema = new mongoose.Schema({
-  name: {
+  patient: {
     type: String,
     required: true
   },
   appointment: {
+    type: String,
+    required: true
+  },
+  specialist: {
     type: String,
     required: true
   }
@@ -15,4 +19,4 @@ const CheckinSchema = new mongoose.Schema({
   }
 )
 
-export default mongoose.model('Checkin',  CheckinSchema)
+export default mongoose.model('checkins',  CheckinSchema)

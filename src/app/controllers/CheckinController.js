@@ -13,6 +13,15 @@ class CheckinController{
       }
     })
   }
+  async sync(req, res) {
+    Checkin.find((err, data) => {
+      if (err) {
+        res.status(500).send(err)
+      } else {
+        res.status(200).send(data)
+      }
+    })
+  }
 
 }
 
