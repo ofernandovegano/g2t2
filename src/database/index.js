@@ -72,6 +72,7 @@ class Database {
           const checkinDetails = change.fullDocument;
           pusher.trigger('checkins', 'inserted',
             {
+              _id: checkinDetails._id,
               patient: checkinDetails.patient,
               appointment: checkinDetails.appointment,
               specialist: checkinDetails.specialist
