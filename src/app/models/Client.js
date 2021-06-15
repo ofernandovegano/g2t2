@@ -6,21 +6,67 @@ class Client extends Model {
   static init(sequelize) {
     super.init(
       {
-        cpf: Sequelize.STRING,
-        name: Sequelize.STRING,
+        cpf: {
+          type:Sequelize.STRING,
+          allowNull: false,
+          validate:{
+            notEmpty: {
+              msg: "O campo cpf não pode ser vazio."
+            },
+            notNull: {
+              msg: "O campo cpf não pode ser vazio."
+            }
+          }
+        },
+        name: {
+          type:Sequelize.STRING,
+          allowNull: false,
+          validate:{
+            notEmpty: {
+              msg: "O campo nome não pode ser vazio."
+            },
+            notNull: {
+              msg: "O campo nome não pode ser vazio."
+            }
+          }
+        },
         phone: Sequelize.STRING,
         mobile: Sequelize.STRING,
-        email: Sequelize.STRING,
-        type_blood: Sequelize.ENUM(
-          "A+",
+        email: {
+          type:Sequelize.STRING,
+          allowNull: false,
+          validate:{
+            notEmpty: {
+              msg: "O campo email não pode ser vazio."
+            },
+            notNull: {
+              msg: "O campo email não pode ser vazio."
+            }
+          }
+        },
+        type_blood: {
+          type: Sequelize.ENUM("A+",
           "A-",
           "B+",
           "B-",
           "O+",
           "O-",
           "AB+",
-          "AB-"
-        ),
+          "AB-"),
+          validate:{
+            isIn:{
+              args:[["A+",
+              "A-",
+              "B+",
+              "B-",
+              "O+",
+              "O-",
+              "AB+",
+              "AB-"]],
+              msg: "Tipos sanguíneos válidos: A+, A-,B+,B-,O+,O-,AB+,AB-"
+            } 
+          }
+        }
       },
       {
         sequelize,

@@ -11,6 +11,17 @@ class SpecialistController {
     return res.json(specialists);
   }
 
+  async listByProfession(req, res) {
+    const specialists = await Specialist.findAll({
+      where: {
+        profession_id: req.params.id,
+      },
+      include: [{ association: "profession" }, { association: "address" }],
+    });
+
+    return res.json(specialists);
+  }
+
   async get(req, res) {
     const specialist = await Specialist.findByPk(req.params.id);
 
@@ -25,9 +36,9 @@ class SpecialistController {
     const { register, name, phone, mobile, email, profession_id, address_id } =
       req.body;
 
-    const registerExist = await Specialist.findOne({where: { register }});
+    const registerExist = await Specialist.findOne({ where: { register } });
 
-    if(registerExist){
+    if (registerExist) {
       return res
         .status(400)
         .json({ erro: "Registro já cadastrado, verifique o dado informado." });
@@ -59,11 +70,14 @@ class SpecialistController {
         profession_id,
         address_id,
       });
-  
+
       return res.status(201).json(specialist);
-      
     } catch (error) {
-      return res.status(400).json({erro: error.errors.map(erro => erro.message) || error.message});
+      return res
+        .status(400)
+        .json({
+          erro: error.errors.map((erro) => erro.message) || error.message,
+        });
     }
   }
 
@@ -97,21 +111,22 @@ class SpecialistController {
       }
     }
     try {
-      specialist.register = register,
-      specialist.name = name,
-      specialist.phone = phone,
-      specialist.mobile = mobile,
-      specialist.email = email,
-      specialist.profession_id = profession_id,
-      specialist.address_id = address_id,
-        
-      await specialist.save();
-  
+      (specialist.register = register),
+        (specialist.name = name),
+        (specialist.phone = phone),
+        (specialist.mobile = mobile),
+        (specialist.email = email),
+        (specialist.profession_id = profession_id),
+        (specialist.address_id = address_id),
+        await specialist.save();
+
       return res.status(200).json(specialist);
-
     } catch (error) {
-      return res.status(400).json({erro: error.errors.map(erro => erro.message) || error.message});
-
+      return res
+        .status(400)
+        .json({
+          erro: error.errors.map((erro) => erro.message) || error.message,
+        });
     }
   }
 
@@ -126,8 +141,7 @@ class SpecialistController {
 
       return res.status(200).send();
     } catch (error) {
-      res.status(400).json({erro: error.message})
-      
+      res.status(400).json({ erro: error.message });
     }
   }
 }
