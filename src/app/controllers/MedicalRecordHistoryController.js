@@ -6,7 +6,12 @@ class ServiceController {
   async list(req, res) {
     const medicalRecordsHistory = await MedicalRecordHistory.findAll({
       include: [
-        { association: "medical_record" },
+        { 
+          association: 'medical_record' ,
+          include: [{
+              association: 'client',
+          }]
+      },
         { association: "specialist" },
       ],
     });
