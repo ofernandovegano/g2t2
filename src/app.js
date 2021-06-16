@@ -1,5 +1,7 @@
 import express from 'express';
 import cors from 'cors';
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from '../swagger.json';
 import routes from './routes';
 
 import './database';
@@ -9,6 +11,7 @@ class App{
     this.server = express();
     this.middleware();
     this.routes()
+    this.server.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
   }
   
   middleware() {
