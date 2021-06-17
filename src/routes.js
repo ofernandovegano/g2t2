@@ -16,8 +16,10 @@ import MedicalRecordController from './app/controllers/MedicalRecordController'
 import MedicalRecordHistoryController from './app/controllers/MedicalRecordHistoryController'
 import CheckinController from './app/controllers/CheckinController'
 
-routes.get('/', (req, res) => {
-  res.send({message: 'Hello World'})
+
+routes.get('/', (req, res, next) => {
+  // res.send({message: 'Hello World'})
+  next()
 })
 
 // Users
@@ -87,6 +89,6 @@ routes.get('/address/:id', AddressesController.get);
 routes.post('/address', AddressesController.create);
 routes.put('/address/:id', AddressesController.update);
 routes.delete('/address/:id', AddressesController.delete);
-routes.use(authMiddleware);
+// routes.use(authMiddleware);
 
 export default routes;
