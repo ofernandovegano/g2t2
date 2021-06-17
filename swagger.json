@@ -1,11 +1,11 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": "Api AfyaDos",
+    "description": "Api Maisha",
     "version": "0.0.1",
-    "title": "API AfyaDos",
+    "title": "API Maisha",
     "contact": {
-      "email": "afyados@gmail.com"
+      "email": "ariele_apm@outlook.com"
     }
   },
   "host": "localhost:5000",
@@ -394,7 +394,7 @@
       "required": ["name", "email", "password"],
       "properties": {
         "id": {
-          "type": "integr",
+          "type": "integer",
           "format": "uuid"
         },
         "name": {
@@ -404,6 +404,9 @@
           "type": "string"
         },
         "password": {
+          "type": "string"
+        },
+        "user_profile": {
           "type": "string"
         }
       },

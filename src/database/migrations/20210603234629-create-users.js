@@ -22,7 +22,7 @@ module.exports = {
         allowNull: false,
       },
       user_profile: {
-        type: Sequelize.ENUM("Especialista", "Recepctionista"),
+        type: Sequelize.ENUM("Especialista", "Recepcionista"),
         allowNull: false,
       },
       created_at: {

@@ -32,12 +32,15 @@ class User extends Model {
           },
         },
         password_hash: Sequelize.STRING,
-        status_service: {
-          type: Sequelize.ENUM("Especialista", "Recepctionista"),
+        user_profile: {
+          type: Sequelize.ENUM("Especialista", "Recepcionista"),
           validate: {
+            notEmpty: {
+              msg: "O campo profile não pode ser vazio.",
+            },
             isIn: {
-              args: [["Especialista", "Recepctionista"]],
-              msg: "Status de agendamento válidos: Especialista ou Recepctionista",
+              args: [["Especialista", "Recepcionista"]],
+              msg: "Status de agendamento válidos: Especialista ou Recepcionista",
             },
           },
         },
