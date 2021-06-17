@@ -1,10 +1,33 @@
 import Service from "../models/Service";
 import Client from "../models/Client";
 import Specialist from "../models/Specialist";
+const { Op } = require("sequelize");
 
 class ServiceController {
   async list(req, res) {
     const services = await Service.findAll({
+      include: [{ association: "client" }, { association: "specialist" }],
+    });
+
+    return res.json(services);
+  }
+
+  async listByDateSchedule(req, res) {
+    const { day } = req.body
+
+    console.log(day)
+
+    const services = await Service.findAll({
+      where: {
+        date_schedule: {
+          [Op.between]: [
+            // `2021-06-14T00:00:00.000Z`,
+            // `2021-06-14T23:59:59.000Z`,
+            `${day}T00:00:00.000Z`,
+            `${day}T23:59:59.000Z`,
+          ],
+        },
+      },
       include: [{ association: "client" }, { association: "specialist" }],
     });
 
@@ -57,10 +80,14 @@ class ServiceController {
         client_id,
         specialist_id,
       });
-  
+
       return res.status(201).json(service);
     } catch (error) {
-      return res.status(400).json({erro: error.errors.map(erro => erro.message) || error.message}); 
+      return res
+        .status(400)
+        .json({
+          erro: error.errors.map((erro) => erro.message) || error.message,
+        });
     }
   }
 
@@ -109,14 +136,15 @@ class ServiceController {
         (service.client_id = client_id),
         (service.specialist_id = specialist_id),
         await service.save();
-  
-      return res.status(200).json(service);
-      
-    } catch (error) {
-      return res.status(400).json({erro: error.errors.map(erro => erro.message) || error.message}); 
-      
-    }
 
+      return res.status(200).json(service);
+    } catch (error) {
+      return res
+        .status(400)
+        .json({
+          erro: error.errors.map((erro) => erro.message) || error.message,
+        });
+    }
   }
 
   async delete(req, res) {
