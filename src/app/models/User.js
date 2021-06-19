@@ -31,7 +31,9 @@ class User extends Model {
             },
           },
         },
-        password_hash: Sequelize.STRING,
+        password_hash: {
+          type: Sequelize.STRING
+        },
         user_profile: {
           type: Sequelize.ENUM("Especialista", "Recepcionista"),
           validate: {
