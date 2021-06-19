@@ -26,7 +26,12 @@ module.exports = {
         allowNull: false,
       },
       status_service: {
-        type: Sequelize.ENUM("AGENDADO", "REALIZADO", "CANCELADO"),
+        type: Sequelize.ENUM(
+          "AGENDADO",
+          "AGUARDANDO ATENDIMENTO",
+          "REALIZADO",
+          "CANCELADO"
+        ),
         allowNull: false,
       },
       client_id: {
