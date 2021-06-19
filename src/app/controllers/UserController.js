@@ -20,18 +20,19 @@ class UserController {
   async create(req, res) {
     const { login, name, password, userProfile } = req.body;
     const loginExist = await User.findOne({ where: { login } });
+    const user = { login, name, password, user_profile: userProfile };
 
     if (loginExist) {
       return res.status(400).json({ erro: "Login já cadastrado." });
     }
     try {
-      await User.create({ login, name, password, userProfile });
+      await User.create(user);
       return res.status(201).json(login);
     } catch (error) {
       return res
         .status(400)
         .json({
-          erro: error.errors.map((erro) => erro.message) || error.message,
+          erro: error.message
         });
     }
   }

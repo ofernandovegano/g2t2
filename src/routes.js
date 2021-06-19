@@ -75,7 +75,7 @@ routes.put("/medical-records-history/:id", MedicalRecordHistoryController.update
 routes.delete("/medical-records-history/:id", MedicalRecordHistoryController.delete);
 
 // Login
-routes.post('/session', SessionController.create)
+routes.post('/sessions', SessionController.create)
 
 // mongoo route
 routes.get('/checkins/sync', CheckinController.sync)
