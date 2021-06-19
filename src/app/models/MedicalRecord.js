@@ -21,6 +21,11 @@ class MedicalRecord extends Model {
       foreignKey: "client_id",
       as: "client",
     });
+
+    this.hasMany(models.MedicalRecordHistory, {
+      foreignKey: "medical_record_id",
+      as: "medical_records_history",
+    });
   }
 }
 

@@ -1,7 +1,9 @@
 import Service from "../models/Service";
 import Client from "../models/Client";
 import Specialist from "../models/Specialist";
-const { Op } = require("sequelize");
+import MedicalRecord from "../models/MedicalRecord";
+// const { Op } = require("sequelize");
+import { Op } from "sequelize";
 
 class ServiceController {
   async list(req, res) {
@@ -13,9 +15,9 @@ class ServiceController {
   }
 
   async listByDateSchedule(req, res) {
-    const { day } = req.body
+    const { day } = req.body;
 
-    console.log(day)
+    console.log(day);
 
     const services = await Service.findAll({
       where: {
@@ -29,6 +31,31 @@ class ServiceController {
         },
       },
       include: [{ association: "client" }, { association: "specialist" }],
+    });
+
+    return res.json(services);
+  }
+
+  async listBySpecialistAndStatus(req, res) {
+    const { id, status } = req.params;
+
+    console.log(id, status);
+
+    const services = await Service.findAll({
+      include: [
+        { association: "client" },
+        { association: "specialist" },
+        {
+          association: "medical_record",
+          include: [{ association: "medical_records_history" }],
+        },
+      ],
+      where: {
+        [Op.and]: [
+          { specialist_id: id },
+          { status_service: status.toUpperCase() },
+        ],
+      },
     });
 
     return res.json(services);
@@ -83,11 +110,9 @@ class ServiceController {
 
       return res.status(201).json(service);
     } catch (error) {
-      return res
-        .status(400)
-        .json({
-          erro: error.errors.map((erro) => erro.message) || error.message,
-        });
+      return res.status(400).json({
+        erro: error.errors.map((erro) => erro.message) || error.message,
+      });
     }
   }
 
@@ -139,11 +164,9 @@ class ServiceController {
 
       return res.status(200).json(service);
     } catch (error) {
-      return res
-        .status(400)
-        .json({
-          erro: error.errors.map((erro) => erro.message) || error.message,
-        });
+      return res.status(400).json({
+        erro: error.errors.map((erro) => erro.message) || error.message,
+      });
     }
   }
 

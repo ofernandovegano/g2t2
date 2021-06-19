@@ -5,59 +5,71 @@ class Service extends Model {
     super.init(
       {
         date_schedule: {
-          type:Sequelize.DATE,
+          type: Sequelize.DATE,
           allowNull: false,
           isDate: true,
-          validate:{
+          validate: {
             notEmpty: {
-              msg: "O campo data de agendamento não pode ser vazio."
+              msg: "O campo data de agendamento não pode ser vazio.",
             },
             notNull: {
-              msg: "O campo data de agendamento é obrigatório."
+              msg: "O campo data de agendamento é obrigatório.",
             },
-            isDate:{
-              msg: "Data de agendamento inválida"
-            }
-          }
+            isDate: {
+              msg: "Data de agendamento inválida",
+            },
+          },
         },
         date_service: {
-          type:Sequelize.DATE,
+          type: Sequelize.DATE,
           allowNull: false,
           isDate: true,
-          validate:{
+          validate: {
             notEmpty: {
-              msg: "O campo data de atendimento não pode ser vazio."
+              msg: "O campo data de atendimento não pode ser vazio.",
             },
             notNull: {
-              msg: "O campo data de atendimento é obrigatório."
+              msg: "O campo data de atendimento é obrigatório.",
             },
-            isDate:{
-              msg:"Data de atendimento inválida"
-            }
-          }
+            isDate: {
+              msg: "Data de atendimento inválida",
+            },
+          },
         },
         time_service: {
-          type:Sequelize.STRING,
+          type: Sequelize.STRING,
           allowNull: false,
-          validate:{
+          validate: {
             notEmpty: {
-              msg: "O campo hora não pode ser vazio."
+              msg: "O campo hora não pode ser vazio.",
             },
             notNull: {
-              msg: "O campo hora é obrigatório."
-            },  
-          }
+              msg: "O campo hora é obrigatório.",
+            },
+          },
         },
         price: Sequelize.FLOAT,
         status_service: {
-          type: Sequelize.ENUM("AGENDADO", "REALIZADO", "CANCELADO"),
-          validate:{
-            isIn:{
-              args:[["AGENDADO", "REALIZADO", "CANCELADO"]],
-              msg: "Status de agendamento válidos: AGENDADO, REALIZADO, CANCELADO"
-            } 
-          }
-        }
+          type: Sequelize.ENUM(
+            "AGENDADO",
+            "AGUARDANDO ATENDIMENTO",
+            "REALIZADO",
+            "CANCELADO"
+          ),
+          validate: {
+            isIn: {
+              args: [
+                [
+                  "AGENDADO",
+                  "AGUARDANDO ATENDIMENTO",
+                  "REALIZADO",
+                  "CANCELADO",
+                ],
+              ],
+              msg: "Status de agendamento válidos: AGENDADO, AGUARDANDO ATENDIMENTO, REALIZADO, CANCELADO",
+            },
+          },
+        },
       },
       {
         sequelize,
@@ -76,6 +88,11 @@ class Service extends Model {
     this.belongsTo(models.Specialist, {
       foreignKey: "specialist_id",
       as: "specialist",
+    });
+
+    this.hasOne(models.MedicalRecord, {
+      foreignKey: "client_id",
+      as: "medical_record",
     });
   }
 }
