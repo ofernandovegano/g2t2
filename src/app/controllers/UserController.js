@@ -45,7 +45,7 @@ class UserController {
 
       user.specialist_id = specialist_id;
     }
-    console.log(user);
+
     try {
       await User.create(user);
       return res.status(201).json(login);
