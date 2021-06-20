@@ -16,11 +16,11 @@
         "tags": ["Users"],
         "summary": "Retorna os usuários da base",
         "description": "Você deve estar autenticado para usar esta rota",
-        "operationId": "addPet",
+        "operationId": "getUser",
         "consumes": ["application/json"],
         "produces": ["application/json"],
         "responses": {
-          "200": {
+          "201": {
             "description": "successful operation",
             "schema": {
               "type": "array",
@@ -29,7 +29,7 @@
               }
             }
           },
-          "401": {
+          "400": {
             "description": "Usuário não autenticado"
           }
         }
@@ -40,7 +40,7 @@
           {
             "in": "body",
             "name": "body",
-            "description": "Você deve passar o email e password no body",
+            "description": "Você deve passar o login, email, password, user_profile no body",
             "required": true,
             "schema": {
               "$ref": "#/definitions/CreateUserBody"
@@ -49,12 +49,12 @@
         ],
         "summary": "Cadastra um usuário na base",
         "description": "",
-        "operationId": "add",
+        "operationId": "addUser",
         "consumes": ["application/json"],
         "produces": ["application/json"],
         "responses": {
           "200": {
-            "description": "successful operation",
+            "description": "Usuário cadastrado com sucesso",
             "schema": {
               "type": "array",
               "items": {
@@ -89,15 +89,15 @@
         ],
         "summary": "Atualiza o usuário",
         "description": "",
-        "operationId": "updateClients",
+        "operationId": "updateUser",
         "consumes": ["application/json"],
         "produces": ["application/json"],
         "responses": {
           "200": {
-            "description": "successful operation"
+            "description": "Dados atualizados com sucesso"
           },
           "400": {
-            "description": "Algo deu errado ao tentar cadastrar p usuário"
+            "description": "Algo deu errado ao tentar cadastrar o usuário"
           }
         }
       },
@@ -107,7 +107,7 @@
           {
             "in": "header",
             "name": "id",
-            "description": "usuário a ser deletado",
+            "description": "Usuário a ser deletado",
             "required": true
           }
         ],
@@ -118,10 +118,10 @@
         "produces": ["application/json"],
         "responses": {
           "200": {
-            "description": "successful operation"
+            "description": "Usuario delete com sucesso"
           },
           "400": {
-            "description": "Algo deu errado ao tentar deletar especialista"
+            "description": "Algo deu errado ao tentar deletar usuário"
           }
         }
       }
@@ -391,7 +391,7 @@
   "definitions": {
     "Users": {
       "type": "object",
-      "required": ["name", "email", "password"],
+      "required": ["name", "email", "password", "user_profile"],
       "properties": {
         "id": {
           "type": "integer",
@@ -407,7 +407,8 @@
           "type": "string"
         },
         "user_profile": {
-          "type": "string"
+          "type": "string",
+          "enum": ["Especialista", "Recepcionista"]
         }
       },
       "xml": {
@@ -430,7 +431,7 @@
         "phone": {
           "type": "string"
         },
-        "cellphone": {
+        "mobile": {
           "type": "string"
         },
         "email": {
@@ -439,41 +440,41 @@
         "gender": {
           "type": "string"
         },
-        "bloodtype": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string",
-              "format": "uuid"
-            },
-            "typeOf": {
-              "type": "string"
-            }
-          }
+        "type_blood": {
+          "type": "string",
+          "enum": ["A-",
+            "B+",
+            "B-",
+            "O+",
+            "O-",
+            "AB+",
+            "AB-"]
+        },
+        "address_id":{
+          "type": "integer"
         },
         "address": {
           "type": "object",
           "properties": {
             "id": {
-              "type": "string",
-              "format": "uuid"
+              "type": "integer"
             },
-            "city": {
-              "type": "string"
-            },
-            "state": {
-              "type": "string"
+            "zipcode":{
+              "type":"string"
             },
             "street": {
+              "type": "string"
+            },
+            "street_number": {
+              "type": "string"
+            },
+            "city": {
               "type": "string"
             },
             "district": {
               "type": "string"
             },
-            "numberOf": {
-              "type": "string"
-            },
-            "postcode": {
+            "federative_unit":{
               "type": "string"
             }
           }
@@ -547,7 +548,7 @@
         "user": {
           "type": "object",
           "id": {
-            "type": "integr",
+            "type": "integer",
             "format": "uuid"
           },
           "name": {
@@ -561,7 +562,7 @@
           }
         },
         "token": {
-          "type": "oauth2"
+          "type": "jwt"
         }
       },
       "xml": {
@@ -585,7 +586,7 @@
     },
     "CreateUser": {
       "type": "object",
-      "required": ["email", "password"],
+      "required": ["email", "password", "user_profile"],
       "properties": {
         "name": {
           "type": "string"
@@ -595,6 +596,10 @@
         },
         "password": {
           "type": "string"
+        },
+        "user_profile":{
+          "type":"string",
+          "enum": ["Especialista", "Recepcionista"]
         }
       },
       "xml": {
@@ -603,7 +608,7 @@
     },
     "CreateUserBody": {
       "type": "object",
-      "required": ["email", "password"],
+      "required": ["email", "password", "user_profile"],
       "properties": {
         "name": {
           "type": "string"
@@ -613,6 +618,10 @@
         },
         "password": {
           "type": "string"
+        },
+        "user_profile":{
+          "type":"string",
+          "enum": ["Especialista", "Recepcionista"]
         }
       },
       "xml": {
