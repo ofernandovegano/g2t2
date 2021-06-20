@@ -1,4 +1,5 @@
 import User from "../models/User";
+import Specialist from "../models/Specialist";
 
 class UserController {
   async list(req, res) {
@@ -18,28 +19,63 @@ class UserController {
   }
 
   async create(req, res) {
-    const { login, name, password, userProfile } = req.body;
+    const { login, name, password, user_profile, specialist_id } = req.body;
+    const user = {};
+
     const loginExist = await User.findOne({ where: { login } });
-    const user = { login, name, password, user_profile: userProfile };
 
     if (loginExist) {
       return res.status(400).json({ erro: "Login já cadastrado." });
     }
+
+    switch (user_profile) {
+      case "Especialista":
+        if (specialist_id) {
+          const specialist = await Specialist.findByPk(specialist_id);
+
+          if (!specialist) {
+            return res
+              .status(400)
+              .json({ erro: "Especialista inválido, tente novamente" });
+          }
+        } else {
+          return res
+            .status(400)
+            .json({ erro: "Especialista não informado, tente novamente" });
+        }
+
+        user = {
+          login,
+          name,
+          password,
+          user_profile,
+          specialist_id,
+        };
+        console.log(user);
+        break;
+      case "Recepcionista":
+        user = {
+          login,
+          name,
+          password,
+          user_profile,
+        };
+        break;
+    }
+
     try {
       await User.create(user);
       return res.status(201).json(login);
     } catch (error) {
-      return res
-        .status(400)
-        .json({
-          erro: error.message
-        });
+      return res.status(400).json({
+        erro: error.message,
+      });
     }
   }
 
   async update(req, res) {
     const user = await User.findByPk(req.params.id);
-    const { login, name, oldPassword, newPassword, userProfile } = req.body;
+    const { login, name, oldPassword, newPassword, user_profile } = req.body;
 
     if (!user) {
       return res.status(400).json({ error: "Usuário ou senha errado(a)." });
@@ -55,7 +91,7 @@ class UserController {
 
     user.login = login;
     user.name = name;
-    user.user_profile = userProfile;
+    user.user_profile = user_profile;
 
     await user.save();
 

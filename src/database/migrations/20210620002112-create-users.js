@@ -25,6 +25,13 @@ module.exports = {
         type: Sequelize.ENUM("Especialista", "Recepcionista"),
         allowNull: false,
       },
+      specialist_id: {
+        type: Sequelize.INTEGER,
+        references: { model: "specialists", key: "id" },
+        onUpdate: "CASCADE",
+        onDelete: "SET NULL",
+        allowNull: true,
+      },
       created_at: {
         type: Sequelize.DATE,
         allowNull: false,
