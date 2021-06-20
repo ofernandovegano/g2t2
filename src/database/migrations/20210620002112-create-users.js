@@ -29,8 +29,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: { model: "specialists", key: "id" },
         onUpdate: "CASCADE",
-        onDelete: "SET NULL",
-        allowNull: true,
+        onDelete: "SET NULL"
       },
       created_at: {
         type: Sequelize.DATE,

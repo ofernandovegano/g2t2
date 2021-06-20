@@ -20,7 +20,7 @@ class UserController {
 
   async create(req, res) {
     const { login, name, password, user_profile, specialist_id } = req.body;
-    const user = {};
+    const user = { login, name, password, user_profile };
 
     const loginExist = await User.findOne({ where: { login } });
 
@@ -28,41 +28,24 @@ class UserController {
       return res.status(400).json({ erro: "Login já cadastrado." });
     }
 
-    switch (user_profile) {
-      case "Especialista":
-        if (specialist_id) {
-          const specialist = await Specialist.findByPk(specialist_id);
+    if (user_profile === "Especialista") {
+      if (specialist_id) {
+        const specialist = await Specialist.findByPk(specialist_id);
 
-          if (!specialist) {
-            return res
-              .status(400)
-              .json({ erro: "Especialista inválido, tente novamente" });
-          }
-        } else {
+        if (!specialist) {
           return res
             .status(400)
-            .json({ erro: "Especialista não informado, tente novamente" });
+            .json({ erro: "Especialista inválido, tente novamente" });
         }
+      } else {
+        return res
+          .status(400)
+          .json({ erro: "Especialista não informado, tente novamente" });
+      }
 
-        user = {
-          login,
-          name,
-          password,
-          user_profile,
-          specialist_id,
-        };
-        console.log(user);
-        break;
-      case "Recepcionista":
-        user = {
-          login,
-          name,
-          password,
-          user_profile,
-        };
-        break;
+      user.specialist_id = specialist_id;
     }
-
+    console.log(user);
     try {
       await User.create(user);
       return res.status(201).json(login);

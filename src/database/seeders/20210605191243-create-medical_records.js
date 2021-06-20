@@ -11,6 +11,12 @@ module.exports = {
       },
       {
         date_opening: new Date(),
+        client_id: "2",
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        date_opening: new Date(),
         client_id: "3",
         created_at: new Date(),
         updated_at: new Date(),
