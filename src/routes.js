@@ -55,7 +55,7 @@ routes.delete("/specialists/:id", SpecialistController.delete);
 // Services
 routes.get("/services", ServiceController.list);
 routes.get("/services/:id", ServiceController.get);
-routes.post("/services/:id/:status", ServiceController.listBySpecialistAndStatus);
+routes.get("/services/:specialist_id/:status", ServiceController.listBySpecialistAndStatus);
 routes.post("/servicesByDay", ServiceController.listByDateSchedule);
 routes.post("/services", ServiceController.create);
 routes.put("/services/:id", ServiceController.update);
