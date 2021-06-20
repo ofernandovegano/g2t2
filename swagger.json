@@ -169,10 +169,10 @@
         "produces": ["application/json"],
         "responses": {
           "200": {
-            "description": "successful operation"
+            "description": "Cliente cadastrado com sucesso"
           },
           "400": {
-            "description": "Algo deu errado ao tentar cadastrar paciente"
+            "description": "Algo deu errado ao tentar cadastrar cliente"
           }
         }
       }
@@ -345,7 +345,7 @@
       }
     },
     
-    "/login": {
+    "/sessions": {
       "post": {
         "tags": ["Login"],
         "parameters": [
@@ -487,10 +487,6 @@
     "CreateClient": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "string",
-          "format": "uuid"
-        },
         "cpf": {
           "type": "string"
         },
@@ -500,18 +496,17 @@
         "phone": {
           "type": "string"
         },
-        "cellphone": {
+        "mobile": {
           "type": "string"
         },
         "email": {
           "type": "string"
         },
-        "gender": {
+        "type_blood": {
           "type": "string"
         },
-        "bloodtype": {
-          "type": "string",
-          "format": "uuid"
+        "address_id":{
+          "type":"integer"
         },
         "address": {
           "type": "object",
@@ -547,18 +542,22 @@
       "properties": {
         "user": {
           "type": "object",
-          "id": {
-            "type": "integer",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "name": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            },
+            "user_profile": {
+              "type": "string"
+            }
           }
         },
         "token": {
