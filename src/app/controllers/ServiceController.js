@@ -37,9 +37,9 @@ class ServiceController {
   }
 
   async listBySpecialistAndStatus(req, res) {
-    const { id, status } = req.params;
+    const { specialist_id, status } = req.params;
 
-    console.log(id, status);
+    console.log(specialist_id, status);
 
     const services = await Service.findAll({
       include: [
@@ -52,12 +52,12 @@ class ServiceController {
       ],
       where: {
         [Op.and]: [
-          { specialist_id: id },
+          { specialist_id },
           { status_service: status.toUpperCase() },
         ],
       },
     });
-
+    
     return res.json(services);
   }
 

@@ -92,6 +92,7 @@ class Service extends Model {
 
     this.hasOne(models.MedicalRecord, {
       foreignKey: "client_id",
+      sourceKey: "client_id",
       as: "medical_record",
     });
   }
