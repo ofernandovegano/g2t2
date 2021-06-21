@@ -21,6 +21,24 @@ module.exports = {
         created_at: new Date(),
         updated_at: new Date(),
       },
+      {
+        history_date: new Date(),
+        history_time: new Date(),
+        description: "Histórico3",
+        specialist_id: "3",
+        medical_record_id: "2",
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        history_date: new Date(),
+        history_time: new Date(),
+        description: "Histórico4",
+        specialist_id: "3",
+        medical_record_id: "2",
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
     ]);
   },
 
