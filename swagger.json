@@ -15,7 +15,7 @@
       "get": {
         "tags": ["Users"],
         "summary": "Retorna os usuários da base",
-        "description": "Você deve estar autenticado para usar esta rota",
+        "description": "",
         "operationId": "getUser",
         "consumes": ["application/json"],
         "produces": ["application/json"],
@@ -391,16 +391,16 @@
   "definitions": {
     "Users": {
       "type": "object",
-      "required": ["name", "email", "password", "user_profile"],
+      "required": ["id","login","name", "password_hash", "user_profile", "createdAt", "updatedAt", "specialist_id"],
       "properties": {
         "id": {
           "type": "integer",
           "format": "uuid"
         },
-        "name": {
-          "type": "string"
+        "login":{
+          "type":"string"
         },
-        "email": {
+        "name": {
           "type": "string"
         },
         "password": {
@@ -409,6 +409,15 @@
         "user_profile": {
           "type": "string",
           "enum": ["Especialista", "Recepcionista"]
+        },
+        "createdAt":{
+          "type":"string"
+        }, 
+        "updatedAt":{
+          "type":"string"
+        },
+        "specialist_id":{
+          "type": "integer"
         }
       },
       "xml": {
@@ -607,8 +616,11 @@
     },
     "CreateUserBody": {
       "type": "object",
-      "required": ["email", "password", "user_profile"],
+      "required": ["login","email", "password", "user_profile","specialist_id"],
       "properties": {
+        "login":{
+          "type":"string"
+        },
         "name": {
           "type": "string"
         },
@@ -621,6 +633,9 @@
         "user_profile":{
           "type":"string",
           "enum": ["Especialista", "Recepcionista"]
+        },
+        "specialist_id":{
+          "type": "integer"
         }
       },
       "xml": {
