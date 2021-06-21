@@ -161,7 +161,7 @@
             "description": "Os dados cadastrais devem ser passados no body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/CreateClient"
+              "$ref": "#/definitions/CreateNewClient"
             }
           }
         ],
@@ -195,7 +195,7 @@
             "description": "Os dados para serem atualizados devem ser passados no body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/CreateClient"
+              "$ref": "#/definitions/CreateNewClient"
             }
           }
         ],
@@ -538,6 +538,35 @@
               "type": "string"
             }
           }
+        }
+      },
+      "xml": {
+        "name": "Clients"
+      }
+    },
+    "CreateNewClient": {
+      "type": "object",
+      "properties": {
+        "cpf": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "mobile": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "type_blood": {
+          "type": "string"
+        },
+        "address_id":{
+          "type":"integer"
         }
       },
       "xml": {
