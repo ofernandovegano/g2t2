@@ -529,6 +529,151 @@
           }
         }
       }
+    },
+    "/services": {
+      "get": {
+        "tags": ["Services"],
+        "summary": "Retorna os services",
+        "description": "Você deve estar autenticado para usar esta rota",
+        "operationId": "getServices",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Sucesso na operação",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Service"
+              }
+            }
+          },
+          "400":{
+            "description": "Algo deu errado na operação"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Services"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Você deve passar o date_schedule, date_service, time_service, price, status_service, client_id, specialist_id,, no body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ServiceBody"
+            }
+          }
+        ],
+        "summary": "Cria um novo Service",
+        "description": "",
+        "operationId": "createService",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ServiceBody"
+              }
+            }
+          },
+          "401": {
+            "description": "Usuário não autorizado"
+          }
+        }
+      }
+    },
+    "/services/{id}":{
+      "put":{
+        "tags": ["Services"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "id",
+            "description": "Service a ser atualizado"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Os dados para serem atualizados devem ser passados no body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ServiceBody"
+            }
+          }
+        ],
+        "summary": "Atualiza o medical record history",
+        "description": "",
+        "operationId": "updateService",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Algo deu errado ao tentar atualizar o Medical Record History"
+          }
+        }
+      },
+      "delete":{
+        "tags": ["Services"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "id",
+            "description": "Service a ser deletado",
+            "required": true
+          }
+        ],
+        "summary": "Deleta um Service",
+        "description": "",
+        "operationId": "deleteService",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Algo deu errado ao tentar deletar um Medical Record History"
+          }
+        }
+      }
+    },
+    "/services/{id}/{status}":{
+      "get": {
+        "tags": ["Services"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "id",
+            "description": "especialista desejado "
+          },
+          {
+            "in": "header",
+            "name": "status",
+            "description": "status do atendimento"
+          }
+        ],
+        "summary": "Retorna os atendimentos de um especialista de acordo com o status",
+        "description": "",
+        "operationId": "getSpecialistStatus",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Algo deu errado ao tentar buscar os atendimentos do especialista"
+          }
+        }
+      }
     }
 
   },
@@ -1048,6 +1193,122 @@
       },
       "xml": {
         "name": "MedicalRecordHistoryBody"
+      }
+    },
+    "Service": {
+      "type": "object",
+      "properties": {
+        "date_schedule": {
+          "type": "string"
+        },
+        "date_service": {
+          "type": "string"
+        },
+        "time_service": {
+          "type": "string"
+        },
+        "price": {
+          "type": "integer"
+        },
+        "status_service": {
+          "type": "integer"
+        },
+        "client_id":{
+          "type": "integer"
+        },
+        "specialist_id":{
+          "type": "integer"
+        },
+        "client": {
+          "type": "object",
+          "properties":{
+            "id": {
+              "type": "integer"
+            },
+            "cpf": {
+              "type": "string"
+            },
+            "name": {
+              "type": "integer"
+            },
+            "phone": {
+              "type": "integer"
+            },
+            "mobile": {
+              "type": "string"
+            },
+            "email": {
+              "type": "integer"
+            },
+            "type_blood": {
+              "type": "string"
+            },
+            "address_id":{
+              "type": "string"
+            }
+          }  
+        },
+        "specialist": {
+          "type":"object",
+          "properties":{
+            "id": {
+              "type": "integer"
+            },
+            "register": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "phone": {
+              "type": "string"
+            },
+            "mobile": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "address_id": {
+              "type": "integer"
+            },
+            "profession_id": {
+              "type": "integer"
+            }
+          }
+        }
+      },
+      "xml": {
+        "name": "Service"
+      }
+    },
+    "ServiceBody": {
+      "type": "object",
+      "properties": {
+        "date_schedule": {
+          "type": "string"
+        },
+        "date_service": {
+          "type": "string"
+        },
+        "time_service": {
+          "type": "string"
+        },
+        "price": {
+          "type": "integer"
+        },
+        "status_service": {
+          "type": "integer"
+        },
+        "client_id":{
+          "type": "integer"
+        },
+        "specialist_id":{
+          "type": "integer"
+        }
+      },
+      "xml": {
+        "name": "Service"
       }
     }
   },
