@@ -149,9 +149,6 @@
                 "$ref": "#/definitions/Clients"
               }
             }
-          },
-          "401": {
-            "description": "Usuário não autenticado"
           }
         }
       },
@@ -434,8 +431,7 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": "string",
-          "format": "uuid"
+          "type": "integer"
         },
         "cpf": {
           "type": "string"
@@ -450,9 +446,6 @@
           "type": "string"
         },
         "email": {
-          "type": "string"
-        },
-        "gender": {
           "type": "string"
         },
         "type_blood": {
