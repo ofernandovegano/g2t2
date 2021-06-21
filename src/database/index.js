@@ -28,7 +28,6 @@ class Database {
   constructor() {
     this.init();
     this.associate();
-    this.mongo();
     this.pusher();
   }
 
