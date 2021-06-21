@@ -40,7 +40,7 @@
           {
             "in": "body",
             "name": "body",
-            "description": "Você deve passar o login, email, password, user_profile no body",
+            "description": "Você deve passar o login, email, password, user_profile e specialist_id (caso exista) no body",
             "required": true,
             "schema": {
               "$ref": "#/definitions/CreateUserBody"
@@ -58,9 +58,12 @@
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/CreateUser"
+                "$ref": "#/definitions/CreateNewUser"
               }
             }
+          },
+          "400":{
+            "description": "Especialista inválido, tente novamente"
           },
           "409": {
             "description": "Usuário já cadastrado"
@@ -94,10 +97,13 @@
         "produces": ["application/json"],
         "responses": {
           "200": {
-            "description": "Dados atualizados com sucesso"
+            "description": "Dados atualizados com sucesso!"
           },
           "400": {
             "description": "Algo deu errado ao tentar cadastrar o usuário"
+          },
+          "401":{
+            "description": "Usuário ou senha errado(a)."
           }
         }
       },
@@ -594,20 +600,34 @@
     },
     "CreateUser": {
       "type": "object",
-      "required": ["email", "password", "user_profile"],
+      "required": ["login", "name", "oldPassword", "newPassword"],
       "properties": {
-        "name": {
+        "login": {
           "type": "string"
         },
-        "email": {
+        "name":{
           "type": "string"
-        },
-        "password": {
+        }, 
+        "oldPassword":{
           "type": "string"
-        },
+        }, 
+        "newPassword":{
+          "type": "string"
+        }, 
         "user_profile":{
-          "type":"string",
-          "enum": ["Especialista", "Recepcionista"]
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Usuario"
+      }
+    },
+    "CreateNewUser":{
+      "type": "object",
+      "required": ["login"],
+      "properties": {
+        "login": {
+          "type": "string"
         }
       },
       "xml": {
@@ -616,7 +636,7 @@
     },
     "CreateUserBody": {
       "type": "object",
-      "required": ["login","email", "password", "user_profile","specialist_id"],
+      "required": ["login","email", "password", "user_profile"],
       "properties": {
         "login":{
           "type":"string"
