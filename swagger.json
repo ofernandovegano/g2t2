@@ -414,7 +414,123 @@
           }
         }
       }
+    },
+    "/medical-records-history": {
+      "get": {
+        "tags": ["Medical Record History"],
+        "summary": "Retorna o histórico de atendimentos",
+        "description": "Você deve estar autenticado para usar esta rota",
+        "operationId": "getMedicalRecordHistory",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Sucesso na operação",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MedicalRecordHistory"
+              }
+            }
+          },
+          "400":{
+            "description": "Algo deu errado na operação"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Medical Record History"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Você deve passar o history_date, history_time, description, medical_record_id, specialist_id, no body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MedicalRecordHistoryBody"
+            }
+          }
+        ],
+        "summary": "Cria um novo Medical Record",
+        "description": "",
+        "operationId": "createMedicalRecordHistory",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MedicalRecordHistoryBody"
+              }
+            }
+          },
+          "401": {
+            "description": "Usuário não autorizado"
+          }
+        }
+      }
+    },
+    "/medical-records-history/{id}":{
+      "put":{
+        "tags": ["Medical Record History"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "id",
+            "description": "Medical record history a ser atualizado"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Os dados para serem atualizados devem ser passados no body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MedicalRecordHistoryBody"
+            }
+          }
+        ],
+        "summary": "Atualiza o medical record history",
+        "description": "",
+        "operationId": "updateMedicalRecordHistory",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Algo deu errado ao tentar atualizar o Medical Record History"
+          }
+        }
+      },
+      "delete":{
+        "tags": ["Medical Record History"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "id",
+            "description": "Medical Record History a ser deletado",
+            "required": true
+          }
+        ],
+        "summary": "Deleta um Medical Record History",
+        "description": "",
+        "operationId": "deleteMedicalRecordHistory",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Algo deu errado ao tentar deletar um Medical Record History"
+          }
+        }
+      }
     }
+
   },
   "securityDefinitions": {
     "api_key": {
@@ -814,6 +930,124 @@
       },
       "xml": {
         "name": "SpecialistBody"
+      }
+    },
+    "MedicalRecordHistory": {
+      "type": "object",
+      "properties": {
+        "history_date": {
+          "type": "string"
+        },
+        "history_time": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "medical_record_id": {
+          "type": "integer"
+        },
+        "specialist_id": {
+          "type": "integer"
+        },
+        "medical_record": {
+          "type": "object",
+          "properties":{
+            "id": {
+              "type": "integer"
+            },
+            "date_opening": {
+              "type": "string"
+            },
+            "client_id": {
+              "type": "integer"
+            },
+            "client": {
+              "type": "object",
+              "properties":{
+                "id": {
+                  "type": "integer"
+                },
+                "cpf": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "integer"
+                },
+                "phone": {
+                  "type": "integer"
+                },
+                "mobile": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "integer"
+                },
+                "type_blood": {
+                  "type": "string"
+                },
+                "address_id":{
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "specialist": {
+          "type":"object",
+          "properties":{
+            "id": {
+              "type": "integer"
+            },
+            "register": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "phone": {
+              "type": "string"
+            },
+            "mobile": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "address_id": {
+              "type": "integer"
+            },
+            "profession_id": {
+              "type": "integer"
+            }
+          }
+        }
+      },
+      "xml": {
+        "name": "MedicalRecordHistoryBody"
+      }
+    },
+    "MedicalRecordHistoryBody": {
+      "type": "object",
+      "properties": {
+        "history_date": {
+          "type": "string"
+        },
+        "history_time": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "medical_record_id": {
+          "type": "integer"
+        },
+        "specialist_id": {
+          "type": "integer"
+        }
+      },
+      "xml": {
+        "name": "MedicalRecordHistoryBody"
       }
     }
   },
