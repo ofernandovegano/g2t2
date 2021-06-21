@@ -15,12 +15,12 @@
       "get": {
         "tags": ["Users"],
         "summary": "Retorna os usuários da base",
-        "description": "Você deve estar autenticado para usar esta rota",
-        "operationId": "addPet",
+        "description": "",
+        "operationId": "getUser",
         "consumes": ["application/json"],
         "produces": ["application/json"],
         "responses": {
-          "200": {
+          "201": {
             "description": "successful operation",
             "schema": {
               "type": "array",
@@ -29,7 +29,7 @@
               }
             }
           },
-          "401": {
+          "400": {
             "description": "Usuário não autenticado"
           }
         }
@@ -40,7 +40,7 @@
           {
             "in": "body",
             "name": "body",
-            "description": "Você deve passar o email e password no body",
+            "description": "Você deve passar o login, email, password, user_profile e specialist_id (caso exista) no body",
             "required": true,
             "schema": {
               "$ref": "#/definitions/CreateUserBody"
@@ -49,18 +49,21 @@
         ],
         "summary": "Cadastra um usuário na base",
         "description": "",
-        "operationId": "add",
+        "operationId": "addUser",
         "consumes": ["application/json"],
         "produces": ["application/json"],
         "responses": {
           "200": {
-            "description": "successful operation",
+            "description": "Usuário cadastrado com sucesso",
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/CreateUser"
+                "$ref": "#/definitions/CreateNewUser"
               }
             }
+          },
+          "400":{
+            "description": "Especialista inválido, tente novamente"
           },
           "409": {
             "description": "Usuário já cadastrado"
@@ -89,15 +92,18 @@
         ],
         "summary": "Atualiza o usuário",
         "description": "",
-        "operationId": "updateClients",
+        "operationId": "updateUser",
         "consumes": ["application/json"],
         "produces": ["application/json"],
         "responses": {
           "200": {
-            "description": "successful operation"
+            "description": "Dados atualizados com sucesso!"
           },
           "400": {
-            "description": "Algo deu errado ao tentar cadastrar p usuário"
+            "description": "Algo deu errado ao tentar cadastrar o usuário"
+          },
+          "401":{
+            "description": "Usuário ou senha errado(a)."
           }
         }
       },
@@ -107,7 +113,7 @@
           {
             "in": "header",
             "name": "id",
-            "description": "usuário a ser deletado",
+            "description": "Usuário a ser deletado",
             "required": true
           }
         ],
@@ -118,10 +124,10 @@
         "produces": ["application/json"],
         "responses": {
           "200": {
-            "description": "successful operation"
+            
           },
           "400": {
-            "description": "Algo deu errado ao tentar deletar especialista"
+            "description": "Usuário não encontrado"
           }
         }
       }
@@ -143,9 +149,6 @@
                 "$ref": "#/definitions/Clients"
               }
             }
-          },
-          "401": {
-            "description": "Usuário não autenticado"
           }
         }
       },
@@ -158,7 +161,7 @@
             "description": "Os dados cadastrais devem ser passados no body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/CreateClient"
+              "$ref": "#/definitions/CreateNewClient"
             }
           }
         ],
@@ -169,10 +172,10 @@
         "produces": ["application/json"],
         "responses": {
           "200": {
-            "description": "successful operation"
+            "description": "Cliente cadastrado com sucesso"
           },
           "400": {
-            "description": "Algo deu errado ao tentar cadastrar paciente"
+            "description": "Algo deu errado ao tentar cadastrar cliente"
           }
         }
       }
@@ -192,7 +195,7 @@
             "description": "Os dados para serem atualizados devem ser passados no body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/CreateClient"
+              "$ref": "#/definitions/CreateNewClient"
             }
           }
         ],
@@ -238,7 +241,7 @@
      "/specialist": {
       "get": {
         "tags": ["Especialistas"],
-        "summary": "Retorna os especialistas e suas especialidades cadastradas",
+        "summary": "Retorna os especialistas, sua especialidade cadastrada e seu endereço cadastrado.",
         "description": "Você deve estar autenticado para usar esta rota",
         "operationId": "getClients",
         "consumes": ["application/json"],
@@ -252,9 +255,6 @@
                 "$ref": "#/definitions/Specialist"
               }
             }
-          },
-          "401": {
-            "description": "Usuário não autenticado"
           }
         }
       },
@@ -278,15 +278,50 @@
         "produces": ["application/json"],
         "responses": {
           "200": {
-            "description": "successful operation"
+            "description": "Usuário cadastrado com sucesso",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Specialist"
+              }
+            }
           },
-          "400": {
-            "description": "Algo deu errado ao tentar cadastrar paciente"
+          "400":{
+            "description": "Algo deu errado ao tentar cadastrar especialista"
+          },
+          "409": {
+            "description": "Usuário já cadastrado"
           }
         }
       }
     },
     "specialist/{id}": {
+      "get": {
+        "tags": ["Especialistas"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "id",
+            "description": "Profissão do especialista"
+          }
+        ],
+        "summary": "Retorna os especialistas de acordo com a profissão",
+        "description": "",
+        "operationId": "listByProfession",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Especialistas com a profissão informada.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Specialist"
+              }
+            }
+          }
+        }
+      },
       "put": {
         "tags": ["Especialistas"],
         "parameters": [
@@ -345,7 +380,7 @@
       }
     },
     
-    "/login": {
+    "/sessions": {
       "post": {
         "tags": ["Login"],
         "parameters": [
@@ -379,7 +414,268 @@
           }
         }
       }
+    },
+    "/medical-records-history": {
+      "get": {
+        "tags": ["Medical Record History"],
+        "summary": "Retorna o histórico de atendimentos",
+        "description": "Você deve estar autenticado para usar esta rota",
+        "operationId": "getMedicalRecordHistory",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Sucesso na operação",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MedicalRecordHistory"
+              }
+            }
+          },
+          "400":{
+            "description": "Algo deu errado na operação"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Medical Record History"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Você deve passar o history_date, history_time, description, medical_record_id, specialist_id, no body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MedicalRecordHistoryBody"
+            }
+          }
+        ],
+        "summary": "Cria um novo Medical Record",
+        "description": "",
+        "operationId": "createMedicalRecordHistory",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MedicalRecordHistoryBody"
+              }
+            }
+          },
+          "401": {
+            "description": "Usuário não autorizado"
+          }
+        }
+      }
+    },
+    "/medical-records-history/{id}":{
+      "put":{
+        "tags": ["Medical Record History"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "id",
+            "description": "Medical record history a ser atualizado"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Os dados para serem atualizados devem ser passados no body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MedicalRecordHistoryBody"
+            }
+          }
+        ],
+        "summary": "Atualiza o medical record history",
+        "description": "",
+        "operationId": "updateMedicalRecordHistory",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Algo deu errado ao tentar atualizar o Medical Record History"
+          }
+        }
+      },
+      "delete":{
+        "tags": ["Medical Record History"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "id",
+            "description": "Medical Record History a ser deletado",
+            "required": true
+          }
+        ],
+        "summary": "Deleta um Medical Record History",
+        "description": "",
+        "operationId": "deleteMedicalRecordHistory",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Algo deu errado ao tentar deletar um Medical Record History"
+          }
+        }
+      }
+    },
+    "/services": {
+      "get": {
+        "tags": ["Services"],
+        "summary": "Retorna os services",
+        "description": "Você deve estar autenticado para usar esta rota",
+        "operationId": "getServices",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Sucesso na operação",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Service"
+              }
+            }
+          },
+          "400":{
+            "description": "Algo deu errado na operação"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Services"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Você deve passar o date_schedule, date_service, time_service, price, status_service, client_id, specialist_id,, no body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ServiceBody"
+            }
+          }
+        ],
+        "summary": "Cria um novo Service",
+        "description": "",
+        "operationId": "createService",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ServiceBody"
+              }
+            }
+          },
+          "401": {
+            "description": "Usuário não autorizado"
+          }
+        }
+      }
+    },
+    "/services/{id}":{
+      "put":{
+        "tags": ["Services"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "id",
+            "description": "Service a ser atualizado"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Os dados para serem atualizados devem ser passados no body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ServiceBody"
+            }
+          }
+        ],
+        "summary": "Atualiza o medical record history",
+        "description": "",
+        "operationId": "updateService",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Algo deu errado ao tentar atualizar o Medical Record History"
+          }
+        }
+      },
+      "delete":{
+        "tags": ["Services"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "id",
+            "description": "Service a ser deletado",
+            "required": true
+          }
+        ],
+        "summary": "Deleta um Service",
+        "description": "",
+        "operationId": "deleteService",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Algo deu errado ao tentar deletar um Medical Record History"
+          }
+        }
+      }
+    },
+    "/services/{id}/{status}":{
+      "get": {
+        "tags": ["Services"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "id",
+            "description": "especialista desejado "
+          },
+          {
+            "in": "header",
+            "name": "status",
+            "description": "status do atendimento"
+          }
+        ],
+        "summary": "Retorna os atendimentos de um especialista de acordo com o status",
+        "description": "",
+        "operationId": "getSpecialistStatus",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Algo deu errado ao tentar buscar os atendimentos do especialista"
+          }
+        }
+      }
     }
+
   },
   "securityDefinitions": {
     "api_key": {
@@ -391,23 +687,33 @@
   "definitions": {
     "Users": {
       "type": "object",
-      "required": ["name", "email", "password"],
+      "required": ["id","login","name", "password_hash", "user_profile", "createdAt", "updatedAt", "specialist_id"],
       "properties": {
         "id": {
           "type": "integer",
           "format": "uuid"
         },
-        "name": {
-          "type": "string"
+        "login":{
+          "type":"string"
         },
-        "email": {
+        "name": {
           "type": "string"
         },
         "password": {
           "type": "string"
         },
         "user_profile": {
-          "type": "string"
+          "type": "string",
+          "enum": ["Especialista", "Recepcionista"]
+        },
+        "createdAt":{
+          "type":"string"
+        }, 
+        "updatedAt":{
+          "type":"string"
+        },
+        "specialist_id":{
+          "type": "integer"
         }
       },
       "xml": {
@@ -418,8 +724,7 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": "string",
-          "format": "uuid"
+          "type": "integer"
         },
         "cpf": {
           "type": "string"
@@ -430,50 +735,47 @@
         "phone": {
           "type": "string"
         },
-        "cellphone": {
+        "mobile": {
           "type": "string"
         },
         "email": {
           "type": "string"
         },
-        "gender": {
-          "type": "string"
+        "type_blood": {
+          "type": "string",
+          "enum": ["A-",
+            "B+",
+            "B-",
+            "O+",
+            "O-",
+            "AB+",
+            "AB-"]
         },
-        "bloodtype": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string",
-              "format": "uuid"
-            },
-            "typeOf": {
-              "type": "string"
-            }
-          }
+        "address_id":{
+          "type": "integer"
         },
         "address": {
           "type": "object",
           "properties": {
             "id": {
-              "type": "string",
-              "format": "uuid"
+              "type": "integer"
             },
-            "city": {
-              "type": "string"
-            },
-            "state": {
-              "type": "string"
+            "zipcode":{
+              "type":"string"
             },
             "street": {
+              "type": "string"
+            },
+            "street_number": {
+              "type": "string"
+            },
+            "city": {
               "type": "string"
             },
             "district": {
               "type": "string"
             },
-            "numberOf": {
-              "type": "string"
-            },
-            "postcode": {
+            "federative_unit":{
               "type": "string"
             }
           }
@@ -486,10 +788,6 @@
     "CreateClient": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "string",
-          "format": "uuid"
-        },
         "cpf": {
           "type": "string"
         },
@@ -499,18 +797,17 @@
         "phone": {
           "type": "string"
         },
-        "cellphone": {
+        "mobile": {
           "type": "string"
         },
         "email": {
           "type": "string"
         },
-        "gender": {
+        "type_blood": {
           "type": "string"
         },
-        "bloodtype": {
-          "type": "string",
-          "format": "uuid"
+        "address_id":{
+          "type":"integer"
         },
         "address": {
           "type": "object",
@@ -540,28 +837,61 @@
         "name": "Clients"
       }
     },
+    "CreateNewClient": {
+      "type": "object",
+      "properties": {
+        "cpf": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "mobile": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "type_blood": {
+          "type": "string"
+        },
+        "address_id":{
+          "type":"integer"
+        }
+      },
+      "xml": {
+        "name": "Clients"
+      }
+    },
     "Login": {
       "type": "object",
       "required": ["email", "password"],
       "properties": {
         "user": {
           "type": "object",
-          "id": {
-            "type": "integr",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "login": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "user_profile": {
+              "type": "string"
+            },
+            "specialist_id":{
+              "type":"integer"
+            }
           }
         },
         "token": {
-          "type": "oauth2"
+          "type": "string"
         }
       },
       "xml": {
@@ -585,15 +915,33 @@
     },
     "CreateUser": {
       "type": "object",
-      "required": ["email", "password"],
+      "required": ["login", "name", "oldPassword", "newPassword"],
       "properties": {
-        "name": {
+        "login": {
           "type": "string"
         },
-        "email": {
+        "name":{
           "type": "string"
-        },
-        "password": {
+        }, 
+        "oldPassword":{
+          "type": "string"
+        }, 
+        "newPassword":{
+          "type": "string"
+        }, 
+        "user_profile":{
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Usuario"
+      }
+    },
+    "CreateNewUser":{
+      "type": "object",
+      "required": ["login"],
+      "properties": {
+        "login": {
           "type": "string"
         }
       },
@@ -603,8 +951,11 @@
     },
     "CreateUserBody": {
       "type": "object",
-      "required": ["email", "password"],
+      "required": ["login","email", "password", "user_profile"],
       "properties": {
+        "login":{
+          "type":"string"
+        },
         "name": {
           "type": "string"
         },
@@ -613,6 +964,13 @@
         },
         "password": {
           "type": "string"
+        },
+        "user_profile":{
+          "type":"string",
+          "enum": ["Especialista", "Recepcionista"]
+        },
+        "specialist_id":{
+          "type": "integer"
         }
       },
       "xml": {
@@ -626,7 +984,7 @@
           "type": "string",
           "format": "uuid"
         },
-        "registry": {
+        "register": {
           "type": "string"
         },
         "name": {
@@ -635,20 +993,25 @@
         "phone": {
           "type": "string"
         },
-        "cell": {
+        "mobile": {
           "type": "string"
         },
         "email": {
           "type": "string"
         },
-        "specialties": {
+        "address_id": {
+          "type": "integer"
+        },
+        "profession_id": {
+          "type": "integer"
+        },
+        "profession": {
           "type": "object",
           "properties": {
             "id": {
-              "type": "string",
-              "format": "uuid"
+              "type": "integer"
             },
-            "specialty": {
+            "name": {
               "type": "string"
             }
           }
@@ -660,22 +1023,22 @@
               "type": "string",
               "format": "uuid"
             },
-            "city": {
-              "type": "string"
-            },
-            "state": {
+            "zipcode": {
               "type": "string"
             },
             "street": {
               "type": "string"
             },
+            "street_number": {
+              "type": "string"
+            },
+            "city": {
+              "type": "string"
+            },
             "district": {
               "type": "string"
             },
-            "numberOf": {
-              "type": "string"
-            },
-            "postcode": {
+            "federative_unit": {
               "type": "string"
             }
           }
@@ -688,7 +1051,7 @@
     "SpecialistBody": {
       "type": "object",
       "properties": {
-        "registry": {
+        "register": {
           "type": "string"
         },
         "name": {
@@ -697,54 +1060,255 @@
         "phone": {
           "type": "string"
         },
-        "cell": {
+        "mobile": {
           "type": "string"
         },
         "email": {
           "type": "string"
         },
-        "specialties": {
+        "profession_id": {
+          "type": "integer"
+        },
+        "address_id": {
+          "type": "integer"
+        }
+      },
+      "xml": {
+        "name": "SpecialistBody"
+      }
+    },
+    "MedicalRecordHistory": {
+      "type": "object",
+      "properties": {
+        "history_date": {
+          "type": "string"
+        },
+        "history_time": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "medical_record_id": {
+          "type": "integer"
+        },
+        "specialist_id": {
+          "type": "integer"
+        },
+        "medical_record": {
           "type": "object",
-          "properties": {
+          "properties":{
             "id": {
-              "type": "string",
-              "format": "uuid"
+              "type": "integer"
             },
-            "specialty": {
+            "date_opening": {
               "type": "string"
+            },
+            "client_id": {
+              "type": "integer"
+            },
+            "client": {
+              "type": "object",
+              "properties":{
+                "id": {
+                  "type": "integer"
+                },
+                "cpf": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "integer"
+                },
+                "phone": {
+                  "type": "integer"
+                },
+                "mobile": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "integer"
+                },
+                "type_blood": {
+                  "type": "string"
+                },
+                "address_id":{
+                  "type": "string"
+                }
+              }
             }
           }
         },
-        "address": {
-          "type": "object",
-          "properties": {
+        "specialist": {
+          "type":"object",
+          "properties":{
             "id": {
-              "type": "string",
-              "format": "uuid"
+              "type": "integer"
             },
-            "city": {
+            "register": {
               "type": "string"
             },
-            "state": {
+            "name": {
               "type": "string"
             },
-            "street": {
+            "phone": {
               "type": "string"
             },
-            "district": {
+            "mobile": {
               "type": "string"
             },
-            "numberOf": {
+            "email": {
               "type": "string"
             },
-            "postcode": {
-              "type": "string"
+            "address_id": {
+              "type": "integer"
+            },
+            "profession_id": {
+              "type": "integer"
             }
           }
         }
       },
       "xml": {
-        "name": "SpecialistBody"
+        "name": "MedicalRecordHistoryBody"
+      }
+    },
+    "MedicalRecordHistoryBody": {
+      "type": "object",
+      "properties": {
+        "history_date": {
+          "type": "string"
+        },
+        "history_time": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "medical_record_id": {
+          "type": "integer"
+        },
+        "specialist_id": {
+          "type": "integer"
+        }
+      },
+      "xml": {
+        "name": "MedicalRecordHistoryBody"
+      }
+    },
+    "Service": {
+      "type": "object",
+      "properties": {
+        "date_schedule": {
+          "type": "string"
+        },
+        "date_service": {
+          "type": "string"
+        },
+        "time_service": {
+          "type": "string"
+        },
+        "price": {
+          "type": "integer"
+        },
+        "status_service": {
+          "type": "integer"
+        },
+        "client_id":{
+          "type": "integer"
+        },
+        "specialist_id":{
+          "type": "integer"
+        },
+        "client": {
+          "type": "object",
+          "properties":{
+            "id": {
+              "type": "integer"
+            },
+            "cpf": {
+              "type": "string"
+            },
+            "name": {
+              "type": "integer"
+            },
+            "phone": {
+              "type": "integer"
+            },
+            "mobile": {
+              "type": "string"
+            },
+            "email": {
+              "type": "integer"
+            },
+            "type_blood": {
+              "type": "string"
+            },
+            "address_id":{
+              "type": "string"
+            }
+          }  
+        },
+        "specialist": {
+          "type":"object",
+          "properties":{
+            "id": {
+              "type": "integer"
+            },
+            "register": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "phone": {
+              "type": "string"
+            },
+            "mobile": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "address_id": {
+              "type": "integer"
+            },
+            "profession_id": {
+              "type": "integer"
+            }
+          }
+        }
+      },
+      "xml": {
+        "name": "Service"
+      }
+    },
+    "ServiceBody": {
+      "type": "object",
+      "properties": {
+        "date_schedule": {
+          "type": "string"
+        },
+        "date_service": {
+          "type": "string"
+        },
+        "time_service": {
+          "type": "string"
+        },
+        "price": {
+          "type": "integer"
+        },
+        "status_service": {
+          "type": "integer"
+        },
+        "client_id":{
+          "type": "integer"
+        },
+        "specialist_id":{
+          "type": "integer"
+        }
+      },
+      "xml": {
+        "name": "Service"
       }
     }
   },

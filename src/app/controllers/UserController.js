@@ -25,7 +25,7 @@ class UserController {
     const loginExist = await User.findOne({ where: { login } });
 
     if (loginExist) {
-      return res.status(400).json({ erro: "Login já cadastrado." });
+      return res.status(409).json({ erro: "Login já cadastrado." });
     }
 
     if (user_profile === "Especialista") {
@@ -61,7 +61,7 @@ class UserController {
     const { login, name, oldPassword, newPassword, user_profile } = req.body;
 
     if (!user) {
-      return res.status(400).json({ error: "Usuário ou senha errado(a)." });
+      return res.status(401).json({ error: "Usuário ou senha errado(a)." });
     } else if (newPassword && !(await user.checkPassword(oldPassword))) {
       return res.status(401).json({ error: "Usuário ou senha errado(a)." });
     } else if (newPassword && (await user.checkPassword(newPassword))) {
