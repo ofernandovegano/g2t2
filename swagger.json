@@ -241,7 +241,7 @@
      "/specialist": {
       "get": {
         "tags": ["Especialistas"],
-        "summary": "Retorna os especialistas e suas especialidades cadastradas",
+        "summary": "Retorna os especialistas, sua especialidade cadastrada e seu endereço cadastrado.",
         "description": "Você deve estar autenticado para usar esta rota",
         "operationId": "getClients",
         "consumes": ["application/json"],
@@ -255,9 +255,6 @@
                 "$ref": "#/definitions/Specialist"
               }
             }
-          },
-          "401": {
-            "description": "Usuário não autenticado"
           }
         }
       },
@@ -691,7 +688,7 @@
           "type": "string",
           "format": "uuid"
         },
-        "registry": {
+        "register": {
           "type": "string"
         },
         "name": {
@@ -700,20 +697,25 @@
         "phone": {
           "type": "string"
         },
-        "cell": {
+        "mobile": {
           "type": "string"
         },
         "email": {
           "type": "string"
         },
-        "specialties": {
+        "address_id": {
+          "type": "integer"
+        },
+        "profession_id": {
+          "type": "integer"
+        },
+        "profession": {
           "type": "object",
           "properties": {
             "id": {
-              "type": "string",
-              "format": "uuid"
+              "type": "integer"
             },
-            "specialty": {
+            "name": {
               "type": "string"
             }
           }
@@ -725,22 +727,22 @@
               "type": "string",
               "format": "uuid"
             },
-            "city": {
-              "type": "string"
-            },
-            "state": {
+            "zipcode": {
               "type": "string"
             },
             "street": {
               "type": "string"
             },
+            "street_number": {
+              "type": "string"
+            },
+            "city": {
+              "type": "string"
+            },
             "district": {
               "type": "string"
             },
-            "numberOf": {
-              "type": "string"
-            },
-            "postcode": {
+            "federative_unit": {
               "type": "string"
             }
           }
