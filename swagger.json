@@ -278,15 +278,50 @@
         "produces": ["application/json"],
         "responses": {
           "200": {
-            "description": "successful operation"
+            "description": "Usuário cadastrado com sucesso",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Specialist"
+              }
+            }
           },
-          "400": {
-            "description": "Algo deu errado ao tentar cadastrar paciente"
+          "400":{
+            "description": "Algo deu errado ao tentar cadastrar especialista"
+          },
+          "409": {
+            "description": "Usuário já cadastrado"
           }
         }
       }
     },
     "specialist/{id}": {
+      "get": {
+        "tags": ["Especialistas"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "id",
+            "description": "Profissão do especialista"
+          }
+        ],
+        "summary": "Retorna os especialistas de acordo com a profissão",
+        "description": "",
+        "operationId": "listByProfession",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Especialistas com a profissão informada.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Specialist"
+              }
+            }
+          }
+        }
+      },
       "put": {
         "tags": ["Especialistas"],
         "parameters": [
@@ -755,7 +790,7 @@
     "SpecialistBody": {
       "type": "object",
       "properties": {
-        "registry": {
+        "register": {
           "type": "string"
         },
         "name": {
@@ -764,50 +799,17 @@
         "phone": {
           "type": "string"
         },
-        "cell": {
+        "mobile": {
           "type": "string"
         },
         "email": {
           "type": "string"
         },
-        "specialties": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string",
-              "format": "uuid"
-            },
-            "specialty": {
-              "type": "string"
-            }
-          }
+        "profession_id": {
+          "type": "integer"
         },
-        "address": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string",
-              "format": "uuid"
-            },
-            "city": {
-              "type": "string"
-            },
-            "state": {
-              "type": "string"
-            },
-            "street": {
-              "type": "string"
-            },
-            "district": {
-              "type": "string"
-            },
-            "numberOf": {
-              "type": "string"
-            },
-            "postcode": {
-              "type": "string"
-            }
-          }
+        "address_id": {
+          "type": "integer"
         }
       },
       "xml": {
