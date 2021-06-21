@@ -615,22 +615,22 @@
             "id": {
               "type": "integer"
             },
+            "login": {
+              "type": "string"
+            },
             "name": {
-              "type": "string"
-            },
-            "email": {
-              "type": "string"
-            },
-            "password": {
               "type": "string"
             },
             "user_profile": {
               "type": "string"
+            },
+            "specialist_id":{
+              "type":"integer"
             }
           }
         },
         "token": {
-          "type": "jwt"
+          "type": "string"
         }
       },
       "xml": {
