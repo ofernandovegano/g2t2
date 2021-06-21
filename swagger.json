@@ -606,7 +606,7 @@
             }
           }
         ],
-        "summary": "Atualiza o medical record history",
+        "summary": "Atualiza um service",
         "description": "",
         "operationId": "updateService",
         "consumes": ["application/json"],
@@ -674,8 +674,122 @@
           }
         }
       }
+    },
+    "/address": {
+      "get": {
+        "tags": ["Address"],
+        "summary": "Retorna os endereços",
+        "description": "Você deve estar autenticado para usar esta rota",
+        "operationId": "getAddress",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Sucesso na operação",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Address"
+              }
+            }
+          },
+          "400":{
+            "description": "Algo deu errado na operação"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Address"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Você deve passar o zipcode, street,street_number, city, district, federative_unit",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddressBody"
+            }
+          }
+        ],
+        "summary": "Cria um novo endereço",
+        "description": "",
+        "operationId": "createAddress",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Address"
+              }
+            }
+          },
+          "401": {
+            "description": "Usuário não autorizado"
+          }
+        }
+      }
+    },
+    "/address/{id}":{
+      "put":{
+        "tags": ["Address"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "id",
+            "description": "Endereço a ser atualizado"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Os dados para serem atualizados devem ser passados no body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddressBody"
+            }
+          }
+        ],
+        "summary": "Atualiza um endereço",
+        "description": "",
+        "operationId": "updateAddress",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Algo deu errado ao tentar atualizar o endereço"
+          }
+        }
+      },
+      "delete":{
+        "tags": ["Address"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "id",
+            "description": "Endereço a ser deletado",
+            "required": true
+          }
+        ],
+        "summary": "Deleta um endereço",
+        "description": "",
+        "operationId": "deleteAddress",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Algo deu errado ao tentar deletar um endereço"
+          }
+        }
+      }
     }
-
   },
   "securityDefinitions": {
     "api_key": {
@@ -1309,6 +1423,61 @@
       },
       "xml": {
         "name": "Service"
+      }
+    },
+    "Address": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "zipcode": {
+          "type": "string"
+        },
+        "street": {
+          "type": "string"
+        },
+        "street_number": {
+          "type": "integer"
+        },
+        "city": {
+          "type": "integer"
+        },
+        "district":{
+          "type": "integer"
+        },
+        "federative_unit":{
+          "type": "integer"
+        }
+      },
+      "xml": {
+        "name": "Address"
+      }
+    },
+    "AddressBody": {
+      "type": "object",
+      "properties": {
+        "zipcode": {
+          "type": "string"
+        },
+        "street": {
+          "type": "string"
+        },
+        "street_number": {
+          "type": "integer"
+        },
+        "city": {
+          "type": "integer"
+        },
+        "district":{
+          "type": "integer"
+        },
+        "federative_unit":{
+          "type": "integer"
+        }
+      },
+      "xml": {
+        "name": "Address"
       }
     }
   },
