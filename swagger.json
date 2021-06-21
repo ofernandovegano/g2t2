@@ -124,10 +124,10 @@
         "produces": ["application/json"],
         "responses": {
           "200": {
-            "description": "Usuario delete com sucesso"
+            
           },
           "400": {
-            "description": "Algo deu errado ao tentar deletar usuário"
+            "description": "Usuário não encontrado"
           }
         }
       }
