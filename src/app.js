@@ -16,7 +16,7 @@ class App{
   
   middleware() {
     this.server.use(cors({
-      origin: 'https://g2t2-front.herokuapp.com/'
+      origin: 'https://g2t2-front.herokuapp.com/sessions'
     }));
     this.server.use(express.json());
     this.server.use(express.urlencoded({
