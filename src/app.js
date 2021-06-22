@@ -1,5 +1,4 @@
 import express from 'express';
-const cors = require('cors');
 import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from '../swagger.json';
 import routes from './routes';
@@ -15,9 +14,12 @@ class App{
   }
   
   middleware() {
-    this.server.use(cors({
-      origin: 'https://g2t2-front.herokuapp.com/sessions'
-    }));
+    this.server.use(function(req, res, next) {
+      res.header("Access-Control-Allow-Origin", "*");
+      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+      res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,PATCH,OPTIONS")
+     next();
+    });
     this.server.use(express.json());
     this.server.use(express.urlencoded({
       extended: true
