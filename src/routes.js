@@ -1,8 +1,13 @@
-import { Router } from 'express';
+import express, { Router } from 'express';
+import cors from 'cors';
+
+const app = express()
 
 import authMiddleware from './app/middlewares/auth'
 
 const routes = new Router();
+
+app.use(cors());
 
 // controllers
 import UserController from './app/controllers/UserController'
