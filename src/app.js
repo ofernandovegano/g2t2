@@ -15,7 +15,7 @@ class App{
   }
   
   middleware() {
-    this.server.use(cors({ origin: "*", optionsSuccessStatus: "*", allowedHeaders: "*"}));
+    this.server.use(cors({ origin: "*", optionsSuccessStatus: 200, allowedHeaders: "*", credentials: true}));
     this.server.use(express.json());
     this.server.use(express.urlencoded({
       extended: true
