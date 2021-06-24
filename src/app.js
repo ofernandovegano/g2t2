@@ -11,11 +11,11 @@ class App{
     this.server = express();
     this.middleware();
     this.routes()
-    this.server.use(cors());
     this.server.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
   }
   
   middleware() {
+    this.server.use(cors({origin: "*"}));
     this.server.use(express.json());
     this.server.use(express.urlencoded({
       extended: true
