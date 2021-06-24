@@ -8,7 +8,7 @@
       "email": "ariele_apm@outlook.com"
     }
   },
-  "host": "https://g2t2.herokuapp.com/",
+  "host": "g2t2.herokuapp.com/",
   "schemes": ["http", "https"],
   "paths": {
     "/users": {
