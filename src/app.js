@@ -12,10 +12,10 @@ class App{
     this.middleware();
     this.routes()
     this.server.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-    this.server.use(cors());
   }
   
   middleware() {
+    this.server.use(cors({optionsSuccessStatus: "*", allowedHeaders: "*"}));
     this.server.use(express.json());
     this.server.use(express.urlencoded({
       extended: true
