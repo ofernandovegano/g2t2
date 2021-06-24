@@ -11,6 +11,7 @@ class App{
     this.server = express();
     this.middleware();
     this.routes()
+    this.server.use(cors());
     this.server.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
   }
   
@@ -19,7 +20,6 @@ class App{
     this.server.use(express.urlencoded({
       extended: true
     }));
-    this.server.use(cors());
   }
 
   routes() {
